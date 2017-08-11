@@ -1,5 +1,7 @@
 # Bamboo Crawler
 
+[![CircleCI Status](https://circleci.com/gh/kitsuyui/bamboo-crawler.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/kitsuyui/bamboo-crawler)
+
 A Hobby Crawler.
 It is almost under construction.
 
