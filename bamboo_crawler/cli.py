@@ -106,7 +106,7 @@ def main():
                         required=True)
     parser.add_argument('--envfile', '-e', type=argparse.FileType('r'))
     parser.add_argument('--task', '-t', type=str, nargs='+', default=[])
-    parser.add_argument('--loop', type=bool, default=False)
+    parser.add_argument('--loop', '-l', type=bool, default=False)
     parser.add_argument('--debug', type=bool, default=False)
     parser.add_argument('--show', type=bool, default=False)
     parser.add_argument('--duration', type=float, default=0.0)

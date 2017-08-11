@@ -13,8 +13,11 @@ from .. import interface
 
 
 class HTTPCrawler(interface.Crawler):
+    def __init__(self, headers=MappingProxyType({})):
+        self.headers = headers
+
     def crawl(self, url, *, context=None):
-        resp = requests.get(url)
+        resp = requests.get(url, headers=self.headers)
         yield resp.content
 
 

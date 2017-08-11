@@ -12,17 +12,13 @@ from .. import interface
 
 class StdoutOutputter(interface.Outputter):
     def write(self, value, *, context=None):
-        if context is not None:
-            metadata = context.metadata
-        else:
-            metadata = {}
-
         if isinstance(value, bytes):
             try:
-                value = value.decode('UTF-8')
+                enc = sys.getdefaultencoding()
+                value = value.decode(enc)
             except Exception:
                 pass
-        print(value, file=sys.stdout)
+        sys.stdout.write(value)
 
 
 class SQSS3Outputter(interface.Outputter):
@@ -42,7 +38,7 @@ class SQSS3Outputter(interface.Outputter):
     def write(self, value, *, context=None):
         bucket = self.bucket
         queue = self.queue
-        encoding = 'UTF-8'
+        encoding = sys.getdefaultencoding()
         if context is not None:
             metadata = context.metadata
         else:

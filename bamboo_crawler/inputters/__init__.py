@@ -10,7 +10,7 @@ from .. import interface
 
 
 class ConstantInputter(interface.Inputter):
-    def __init__(self, value, metadata):
+    def __init__(self, value, metadata=MappingProxyType({})):
         self.value = value
         self.metadata = metadata
 

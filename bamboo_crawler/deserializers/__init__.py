@@ -21,4 +21,4 @@ class NullDeserializer(interface.Deserializer):
         return value
 
 
-__all__ = ['GzipDeserializer', 'NullDeserializer']
+__all__ = ['GzipDeserializer', 'NullDeserializer', 'JSONDeserializer']
