@@ -2,19 +2,18 @@ fetch_task:
   input:
     type: ConstantInputter
     options:
-      value: http://httpbin.org/robots.txt
+      value: http://127.0.0.1:4000/robots.txt
   process:
     type: HTTPCrawler
   output:
     type: StdoutOutputter
 
 
-
 user_agent:
   input:
     type: ConstantInputter
     options:
-      value: http://httpbin.org/user-agent
+      value: http://127.0.0.1:4000/user-agent
   process:
     type: HTTPCrawler
     options:
@@ -22,7 +21,6 @@ user_agent:
         user-agent: Testing User Agent
   output:
     type: StdoutOutputter
-
 
 
 constant_inputter_test:
@@ -34,7 +32,6 @@ constant_inputter_test:
     type: NullProcessor
   output:
     type: StdoutOutputter
-
 
 
 constant_inputter_with_metadata:

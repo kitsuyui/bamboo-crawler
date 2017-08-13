@@ -14,7 +14,7 @@ def _read_requirements(filename):
 
 setup(
     name='bamboo-crawler',
-    version='0.0.5',
+    version='0.0.6',
     description='Hobby Crawler (yet)',
     author='Yui Kitsu',
     author_email='kitsuyui+github@kitsuyui.com',
