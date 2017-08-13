@@ -27,7 +27,6 @@ mytask:
     type: ConstantInputter
     options:
       value: http://httpbin.org/robots.txt
-      metadata: {}
   process:
     type: HTTPCrawler
   output:

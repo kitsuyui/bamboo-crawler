@@ -1,6 +1,7 @@
 pyformat
-moto
+moto[server]
 flake8
 mypy
 pycodestyle
 typed-ast
+httpbin
