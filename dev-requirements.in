@@ -1,3 +1,4 @@
+pip-tools
 pyformat
 moto[server]
 flake8
@@ -5,3 +6,4 @@ mypy
 pycodestyle
 typed-ast
 httpbin
+nose
