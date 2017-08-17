@@ -23,8 +23,7 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install -r requirements.txt
-            pip install -r dev-requirements.txt
+            python setup.py dev_persistent_pip_sync
 
       - save_cache:
           paths:
@@ -35,10 +34,10 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            flake8 bamboo_crawler
+            flake8 bamboo_crawler tests
             export AWS_ACCESS_KEY_ID=''
             export AWS_SECRET_ACCESS_KEY=''
-            python3 -m unittest tests
+            python setup.py test
 
       - store_artifacts:
           path: test-reports
