@@ -6,6 +6,7 @@ from types import MappingProxyType
 import boto3
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
+from sqlalchemy.sql import text
 
 from .. import interface
 
@@ -58,18 +59,28 @@ class SQSS3Outputter(interface.Outputter):
 
 
 class SQLOutputter(interface.Outputter):
-    def __init__(self, url, table):
+    def __init__(self, url, *, table=None, query=None):
+        if query is None and table is None:
+            raise NotImplementedError
+        if query is not None and table is not None:
+            raise NotImplementedError
         self.engine = sqlalchemy.create_engine(url)
-        self.table = table
-        metadata = sqlalchemy.MetaData()
-        metadata.reflect(self.engine, only=[table])
-        Base = automap_base(metadata=metadata)
-        Base.prepare()
-        self.query = metadata.tables[table].insert()
+        self._type = 'query'
+        if table is not None:
+            self._type = 'table'
+            metadata = sqlalchemy.MetaData()
+            metadata.reflect(self.engine, only=[table])
+            Base = automap_base(metadata=metadata)
+            Base.prepare()
+            query = metadata.tables[table].insert()
+        self.query = query
 
     def write(self, value, *, context=None):
         j = json.loads(value)
-        self.engine.execute(self.query.values(j))
+        if self._type == 'table':
+            self.engine.execute(self.query.values(j))
+        else:
+            self.engine.execute(text(self.query), j)
 
 
 __all__ = ['StdoutOutputter', 'SQSS3Outputter', 'SQLOutputter']
