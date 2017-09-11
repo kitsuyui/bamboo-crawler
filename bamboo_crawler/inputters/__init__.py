@@ -5,6 +5,8 @@ import time
 from types import MappingProxyType
 
 import boto3
+import sqlalchemy
+from sqlalchemy.ext.automap import automap_base
 
 from .. import interface
 
@@ -75,4 +77,33 @@ class SQSS3Inputter(interface.Inputter):
         self.message.delete()
 
 
-__all__ = ['ConstantInputter', 'SQSS3Inputter']
+class SQLInputter(interface.Inputter):
+
+    def __init__(self, url, *, table=None, query=None):
+        if query is None and table is None:
+            raise NotImplementedError
+        if query is not None and table is not None:
+            raise NotImplementedError
+        self.engine = sqlalchemy.create_engine(url)
+        if table is not None:
+            metadata = sqlalchemy.MetaData()
+            metadata.reflect(self.engine, only=[table])
+            Base = automap_base(metadata=metadata)
+            Base.prepare()
+            query = metadata.tables[table].select()
+        self.result = self.engine.execute(query)
+        self.keys = self.result.keys()
+
+    def read(self):
+        r = self.result.fetchone()
+        p = dict(zip(self.keys, r))
+        return interface.Context(p)
+
+
+__all__ = [
+    'ConstantInputter',
+    'StdinInputter',
+    'FileInputter',
+    'SQSS3Inputter',
+    'SQLInputter',
+]
