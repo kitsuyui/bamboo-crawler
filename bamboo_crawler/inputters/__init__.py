@@ -75,6 +75,7 @@ class SQSS3Inputter(interface.Inputter):
     def done(self):
         super().done()
         self.message.delete()
+        self.message = None
 
 
 class SQLInputter(interface.Inputter):
