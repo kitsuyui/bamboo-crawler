@@ -7,7 +7,7 @@ It is almost under construction.
 
 # Usage
 
-## Installatino
+## Installation
 
 ```console
 $ pip install bamboo-crawler
