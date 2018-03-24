@@ -2,6 +2,7 @@ from collections import defaultdict
 from datetime import date
 from datetime import datetime
 from datetime import time
+import re
 from urllib.parse import parse_qs
 from urllib.parse import urlparse
 
@@ -113,6 +114,20 @@ class PythonProcessor(interface.Processor):
             'date': date,
             'time': time,
             'datetime': datetime,
+            'max': max,
+            'all': all,
+            'any': any,
+            'divmod': divmod,
+            'sorted': sorted,
+            'ord': ord,
+            'chr': chr,
+            'bin': bin,
+            'sum': sum,
+            'pow': pow,
+            'len': len,
+            'range': range,
+            'map': map,
+            're': re,
         }
         globals_ = {'__builtins__': allowed_functions}
         locals_ = {'_': data, 'meta': metadata}
