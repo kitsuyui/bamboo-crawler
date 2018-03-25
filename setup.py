@@ -44,7 +44,7 @@ class PersistentPipSyncCommand(build_py.build_py):
 # https://docs.python.org/3.6/distutils/setupscript.html#additional-meta-data
 setup(
     name='bamboo-crawler',
-    version='0.0.7',
+    version='0.1.0',
     description='Hobby Crawler (yet)',
     long_description='''\
 bamboo-crawler
