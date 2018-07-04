@@ -43,7 +43,7 @@ pyyaml==3.12              # via pyaml
 requests==2.18.3          # via moto
 s3transfer==0.1.10        # via boto3
 six==1.10.0               # via httpbin, mock, moto, pip-tools, python-dateutil
-typed-ast==1.0.4
+typed-ast==1.1.0
 unify==0.2                # via pyformat
 untokenize==0.1.1         # via docformatter, unify
 urllib3==1.22             # via requests
