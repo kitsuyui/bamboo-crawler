@@ -29,7 +29,7 @@ markupsafe==1.0           # via httpbin, jinja2
 mccabe==0.6.1             # via flake8
 mock==2.0.0               # via moto
 moto[server]==1.0.1
-mypy==0.521
+mypy==0.610
 nose==1.3.7
 pbr==3.1.1                # via mock
 pip-tools==1.11.0
