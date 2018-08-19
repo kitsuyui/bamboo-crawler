@@ -13,7 +13,7 @@ docutils==0.13.1          # via botocore
 idna==2.5                 # via requests
 jinja2==2.10
 jmespath==0.9.3           # via boto3, botocore
-lxml==3.8.0
+lxml==4.2.4
 markupsafe==1.0           # via jinja2
 python-dateutil==2.7.3
 pytz==2018.5
