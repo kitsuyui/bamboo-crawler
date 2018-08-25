@@ -4,53 +4,66 @@
 #
 #    pip-compile --output-file dev-requirements.txt dev-requirements.in
 #
-autoflake==0.7            # via pyformat
-autopep8==1.3.2           # via pyformat
+asn1crypto==0.24.0        # via cryptography
+autoflake==1.2            # via pyformat
+autopep8==1.3.5           # via pyformat
+aws-xray-sdk==0.95        # via moto
 blinker==1.4              # via raven
-boto3==1.4.5              # via moto
-boto==2.48.0              # via moto
-botocore==1.5.92          # via boto3, s3transfer
+boto3==1.8.1              # via moto
+boto==2.49.0              # via moto
+botocore==1.11.1          # via boto3, moto, s3transfer
 brotlipy==0.7.0           # via httpbin
-certifi==2017.7.27.1      # via requests
-cffi==1.11.5              # via brotlipy
+certifi==2018.8.24        # via requests
+cffi==1.11.5              # via brotlipy, cryptography
 chardet==3.0.4            # via requests
 click==6.7                # via flask, pip-tools
-cookies==2.2.1            # via moto
-decorator==4.1.2          # via httpbin
-dicttoxml==1.7.4          # via moto
-docformatter==0.8         # via pyformat
-docutils==0.13.1          # via botocore
+cookies==2.2.1            # via moto, responses
+cryptography==2.3.1       # via moto
+decorator==4.3.0          # via httpbin
+docformatter==1.0         # via pyformat
+docker-pycreds==0.3.0     # via docker
+docker==3.5.0             # via moto
+docutils==0.14            # via botocore
+ecdsa==0.13               # via python-jose
 first==2.0.1              # via pip-tools
 flake8==3.5.0
-flask==0.12.2             # via httpbin, moto, raven
+flask==1.0.2              # via httpbin, moto, raven
+future==0.16.0            # via python-jose
 httpbin==0.7.0
-idna==2.5                 # via requests
+idna==2.7                 # via cryptography, requests
 itsdangerous==0.24        # via flask, httpbin
-jinja2==2.9.6             # via flask, moto
+jinja2==2.10              # via flask, moto
 jmespath==0.9.3           # via boto3, botocore
+jsondiff==1.1.1           # via moto
+jsonpickle==0.9.6         # via aws-xray-sdk
 markupsafe==1.0           # via httpbin, jinja2
 mccabe==0.6.1             # via flake8
 mock==2.0.0               # via moto
-moto[server]==1.0.1
+moto[server]==1.3.4
 mypy==0.620
 nose==1.3.7
-pbr==3.1.1                # via mock
+pbr==4.2.0                # via mock
 pip-tools==2.0.2
-pyaml==17.7.2             # via moto
+pyaml==17.12.1            # via moto
 pycodestyle==2.3.1
 pycparser==2.18           # via cffi
-pyflakes==1.5.0           # via autoflake, flake8
+pycryptodome==3.6.6       # via python-jose
+pyflakes==1.6.0           # via autoflake, flake8
 pyformat==0.7
-python-dateutil==2.6.1    # via botocore, moto
-pytz==2017.2              # via moto
-pyyaml==3.12              # via pyaml
+python-dateutil==2.7.3    # via botocore, moto
+python-jose==2.0.2        # via moto
+pytz==2018.5              # via moto
+pyyaml==3.13              # via pyaml
 raven[flask]==6.9.0       # via httpbin
-requests==2.18.3          # via moto
-s3transfer==0.1.10        # via boto3
-six==1.10.0               # via httpbin, mock, moto, pip-tools, python-dateutil
+requests==2.19.1          # via aws-xray-sdk, docker, moto, responses
+responses==0.9.0          # via moto
+s3transfer==0.1.13        # via boto3
+six==1.11.0               # via cryptography, docker, docker-pycreds, httpbin, mock, moto, pip-tools, python-dateutil, python-jose, responses, websocket-client
 typed-ast==1.1.0
-unify==0.2                # via pyformat
+unify==0.4                # via pyformat
 untokenize==0.1.1         # via docformatter, unify
-urllib3==1.22             # via requests
+urllib3==1.23             # via botocore, requests
+websocket-client==0.51.0  # via docker
 werkzeug==0.14.1          # via flask, httpbin, moto
+wrapt==1.10.11            # via aws-xray-sdk
 xmltodict==0.11.0         # via moto
