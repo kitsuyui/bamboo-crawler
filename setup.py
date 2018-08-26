@@ -2,15 +2,24 @@
 
 import subprocess
 
-import pip
+try: # for pip >= 10
+    from pip._internal.req import parse_requirements
+except ImportError: # for pip < 10
+    from pip.req import parse_requirements
+
+try: # for pip >= 10
+    from pip._internal.download import PipSession
+except ImportError: # for pip < 10
+    from pip.download import PipSession
+
 from setuptools import find_packages
 import setuptools.command.build_py as build_py
 from setuptools import setup
 
 
 def _read_requirements(filename):
-    reqs_obj = pip.req.parse_requirements(filename,
-                                          session=pip.download.PipSession())
+    reqs_obj = parse_requirements(filename,
+                                  session=PipSession())
     reqs_str = [str(ir.req) for ir in reqs_obj]
     return reqs_str
 
