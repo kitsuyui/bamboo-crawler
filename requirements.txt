@@ -6,7 +6,7 @@
 #
 boto3==1.8.1
 botocore==1.11.1          # via boto3, s3transfer
-certifi==2018.8.24        # via requests
+certifi==2018.10.15        # via requests
 chardet==3.0.4            # via requests
 cssselect==1.0.3
 docutils==0.14            # via botocore
