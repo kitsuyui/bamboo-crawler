@@ -16,7 +16,7 @@ brotlipy==0.7.0           # via httpbin
 certifi==2018.8.24        # via requests
 cffi==1.11.5              # via brotlipy, cryptography
 chardet==3.0.4            # via requests
-click==6.7                # via flask, pip-tools
+click==7.0                # via flask, pip-tools
 cookies==2.2.1            # via moto, responses
 cryptography==2.3.1       # via moto
 decorator==4.3.0          # via httpbin
