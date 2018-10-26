@@ -9,7 +9,7 @@ autoflake==1.2            # via pyformat
 autopep8==1.3.5           # via pyformat
 aws-xray-sdk==2.2.0        # via moto
 blinker==1.4              # via raven
-boto3==1.9.32              # via moto
+boto3==1.8.1              # via moto
 boto==2.49.0              # via moto
 botocore==1.11.1          # via boto3, moto, s3transfer
 brotlipy==0.7.0           # via httpbin
@@ -35,7 +35,7 @@ itsdangerous==0.24        # via flask, httpbin
 jinja2==2.10              # via flask, moto
 jmespath==0.9.3           # via boto3, botocore
 jsondiff==1.1.2           # via moto
-jsonpickle==0.9.6         # via aws-xray-sdk
+jsonpickle==1.0         # via aws-xray-sdk
 markupsafe==1.0           # via httpbin, jinja2
 mccabe==0.6.1             # via flake8
 mock==2.0.0               # via moto
