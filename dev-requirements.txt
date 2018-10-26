@@ -34,7 +34,7 @@ idna==2.7                 # via cryptography, requests
 itsdangerous==0.24        # via flask, httpbin
 jinja2==2.10              # via flask, moto
 jmespath==0.9.3           # via boto3, botocore
-jsondiff==1.1.1           # via moto
+jsondiff==1.1.2           # via moto
 jsonpickle==0.9.6         # via aws-xray-sdk
 markupsafe==1.0           # via httpbin, jinja2
 mccabe==0.6.1             # via flake8
