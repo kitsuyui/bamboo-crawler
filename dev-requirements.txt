@@ -31,7 +31,7 @@ flask==1.0.2              # via httpbin, moto, raven
 future==0.17.0            # via python-jose
 httpbin==0.7.0
 idna==2.7                 # via cryptography, requests
-itsdangerous==0.24        # via flask, httpbin
+itsdangerous==1.1.0        # via flask, httpbin
 jinja2==2.10              # via flask, moto
 jmespath==0.9.3           # via boto3, botocore
 jsondiff==1.1.2           # via moto
