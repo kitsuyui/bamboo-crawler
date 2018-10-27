@@ -50,7 +50,7 @@ pycparser==2.19           # via cffi
 pycryptodome==3.6.6       # via python-jose
 pyflakes==2.0.0           # via autoflake, flake8
 pyformat==0.7
-python-dateutil==2.7.4    # via botocore, moto
+python-dateutil==2.7.5    # via botocore, moto
 python-jose==3.0.1        # via moto
 pytz==2018.6              # via moto
 pyyaml==3.13              # via pyaml
