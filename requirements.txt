@@ -16,7 +16,7 @@ jmespath==0.9.3           # via boto3, botocore
 lxml==4.2.5
 markupsafe==1.0           # via jinja2
 python-dateutil==2.7.5
-pytz==2018.6
+pytz==2018.7
 pyyaml==3.13
 requests==2.20.0
 s3transfer==0.1.13        # via boto3
