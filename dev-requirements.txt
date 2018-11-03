@@ -63,7 +63,7 @@ typed-ast==1.1.0
 unify==0.4                # via pyformat
 untokenize==0.1.1         # via docformatter, unify
 urllib3==1.24.1             # via botocore, requests
-websocket-client==0.53.0  # via docker
+websocket-client==0.54.0  # via docker
 werkzeug==0.14.1          # via flask, httpbin, moto
 wrapt==1.10.11            # via aws-xray-sdk
 xmltodict==0.11.0         # via moto
