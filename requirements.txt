@@ -21,5 +21,5 @@ pyyaml==3.13
 requests==2.20.0
 s3transfer==0.1.13        # via boto3
 six==1.11.0               # via python-dateutil
-sqlalchemy==1.2.12
+sqlalchemy==1.2.14
 urllib3==1.24.1             # via botocore, requests
