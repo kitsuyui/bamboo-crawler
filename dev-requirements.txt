@@ -46,7 +46,7 @@ pip-tools==3.1.0
 pyaml==18.11.0            # via moto
 pycodestyle==2.4.0
 pycparser==2.19           # via cffi
-pycryptodome==3.7.0       # via python-jose
+pycryptodome==3.7.2       # via python-jose
 pyflakes==2.0.0           # via autoflake, flake8
 pyformat==0.7
 python-dateutil==2.7.5    # via botocore, moto
