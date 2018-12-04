@@ -28,7 +28,7 @@ flake8==3.6.0
 flask==1.0.2              # via httpbin, moto, raven
 future==0.17.1            # via python-jose
 httpbin==0.7.0
-idna==2.7                 # via cryptography, requests
+idna==2.8                 # via cryptography, requests
 itsdangerous==1.1.0       # via flask, httpbin
 jinja2==2.10              # via flask, moto
 jmespath==0.9.3           # via boto3, botocore
