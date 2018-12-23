@@ -58,7 +58,7 @@ requests==2.21.0          # via aws-xray-sdk, docker, moto, responses
 responses==0.10.5         # via moto
 s3transfer==0.1.13        # via boto3
 six==1.12.0               # via cryptography, docker, docker-pycreds, httpbin, mock, moto, pip-tools, python-dateutil, python-jose, responses, websocket-client
-typed-ast==1.1.0
+typed-ast==1.1.1
 unify==0.4                # via pyformat
 untokenize==0.1.1         # via docformatter, unify
 urllib3==1.24.1           # via botocore, requests
