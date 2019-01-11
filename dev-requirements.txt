@@ -9,7 +9,7 @@ autoflake==1.2            # via pyformat
 autopep8==1.4.3           # via pyformat
 aws-xray-sdk==0.97        # via moto
 blinker==1.4              # via raven
-boto3==1.9.74             # via moto
+boto3==1.9.78             # via moto
 boto==2.49.0              # via moto
 botocore==1.12.74         # via boto3, moto, s3transfer
 brotlipy==0.7.0           # via httpbin
