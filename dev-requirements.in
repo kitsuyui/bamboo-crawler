@@ -7,3 +7,4 @@ pycodestyle
 typed-ast
 httpbin
 nose
+pyyaml>=4.2b1
