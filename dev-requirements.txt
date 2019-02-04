@@ -24,7 +24,7 @@ docker-pycreds==0.4.0     # via docker
 docker==3.7.0             # via moto
 docutils==0.14            # via botocore
 ecdsa==0.13               # via python-jose
-flake8==3.7.4
+flake8==3.7.5
 flask==1.0.2              # via httpbin, moto, raven
 future==0.17.1            # via python-jose
 httpbin==0.7.0
