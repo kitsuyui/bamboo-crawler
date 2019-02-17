@@ -15,7 +15,7 @@ jinja2==2.10
 jmespath==0.9.3           # via boto3, botocore
 lxml==4.3.0
 markupsafe==1.1.0         # via jinja2
-python-dateutil==2.7.5
+python-dateutil==2.8.0
 pytz==2018.9
 pyyaml==4.2b4
 requests==2.21.0
