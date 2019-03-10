@@ -13,7 +13,7 @@ boto3==1.9.111             # via moto
 boto==2.49.0              # via moto
 botocore==1.12.111         # via boto3, moto, s3transfer
 brotlipy==0.7.0           # via httpbin
-certifi==2018.11.29       # via requests
+certifi==2019.3.9       # via requests
 cffi==1.12.2              # via brotlipy, cryptography
 chardet==3.0.4            # via requests
 click==7.0                # via flask, pip-tools
