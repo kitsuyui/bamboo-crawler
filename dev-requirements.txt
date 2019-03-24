@@ -52,7 +52,7 @@ pyformat==0.7
 python-dateutil==2.8.0    # via botocore, moto
 python-jose==2.0.2        # via moto
 pytz==2018.9              # via moto
-pyyaml==4.2b4
+pyyaml==5.1
 raven[flask]==6.10.0      # via httpbin
 requests==2.21.0          # via aws-xray-sdk, docker, moto, responses
 responses==0.10.5         # via moto
