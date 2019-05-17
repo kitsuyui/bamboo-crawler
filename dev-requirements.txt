@@ -25,7 +25,7 @@ docker==3.7.2             # via moto
 docutils==0.14            # via botocore
 ecdsa==0.13.2               # via python-jose
 flake8==3.7.7
-flask==1.0.2              # via httpbin, moto, raven
+flask==1.0.3              # via httpbin, moto, raven
 future==0.17.1            # via python-jose
 httpbin==0.7.0
 idna==2.8                 # via cryptography, requests
