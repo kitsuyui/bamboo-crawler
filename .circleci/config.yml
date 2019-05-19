@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/python:3.7.3@sha256:f59aa99941be1c5b29f328570b25728a2fbe441c7c6f71eeb78ea2fc170bce17
+      - image: circleci/python:3.7.3@sha256:ca448fa07924af2b030fb5c451db5f95a841809c7bef9985b13d521715dac9a6
     working_directory: ~/repo
 
     steps:
