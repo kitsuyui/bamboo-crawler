@@ -21,7 +21,7 @@ cryptography==2.6.1       # via moto
 decorator==4.4.0          # via httpbin
 docformatter==1.1         # via pyformat
 docker-pycreds==0.4.0     # via docker
-docker==4.0.1             # via moto
+docker==3.7.2             # via moto
 docutils==0.14            # via botocore
 ecdsa==0.13.2               # via python-jose
 flake8==3.7.7
