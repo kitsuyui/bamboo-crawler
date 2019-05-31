@@ -1,9 +1,0 @@
-lxml
-boto3
-cssselect
-Jinja2
-python-dateutil
-pytz
-pyyaml>=4.2b1
-requests
-SQLAlchemy

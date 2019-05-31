@@ -1,0 +1,24 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+pyformat = '*'
+'moto[server]' = '*'
+flake8 = '*'
+mypy = '*'
+httpbin = '*'
+
+
+[packages]
+boto3 = '*'
+cssselect = '*'
+lxml = '*'
+requests = '*'
+PyYAML = '*'
+SQLAlchemy = '*'
+
+[requires]
+python_version = "3.7"

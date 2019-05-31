@@ -2,22 +2,7 @@
   "extends": [
     "config:base"
   ],
-  "pip_requirements": {
-    "packageRules": [
-      {
-        "groupName": "boto group",
-        "packageNames": [
-          "boto3",
-          "botocore"
-        ]
-      },
-      {
-        "groupName": "mypy packages",
-        "packageNames": [
-          "mypy",
-          "typed-ast"
-        ]
-      }
-    ]
+  "pipenv": {
+    "enabled": true
   }
 }
