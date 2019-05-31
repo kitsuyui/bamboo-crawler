@@ -17,7 +17,7 @@ certifi==2019.3.9       # via requests
 cffi==1.12.3              # via brotlipy, cryptography
 chardet==3.0.4            # via requests
 click==7.0                # via flask, pip-tools
-cryptography==2.6.1       # via moto
+cryptography==2.7       # via moto
 decorator==4.4.0          # via httpbin
 docformatter==1.1         # via pyformat
 docker-pycreds==0.4.0     # via docker
