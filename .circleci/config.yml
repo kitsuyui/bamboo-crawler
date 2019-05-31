@@ -14,30 +14,28 @@ jobs:
 
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "requirements.txt" }}-{{ checksum "dev-requirements.txt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
+            - cache-{{ checksum "Pipfile.lock" }}
+            - cache-
       - run:
-          name: install dependencies
+          name: Install dependencies
           command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            python setup.py dev_persistent_pip_sync
+            python3 -m venv .venv
+            pip install --user pipenv
+            pipenv sync --dev
 
       - save_cache:
+          key: cache-{{ checksum "Pipfile.lock" }}
           paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}-{{ checksum "dev-requirements.txt" }}
+            - ~/.local
+            - ~/.cache
 
       - run:
           name: run tests
           command: |
-            . venv/bin/activate
-            flake8 bamboo_crawler tests
+            pipenv run flake8 bamboo_crawler tests
             export AWS_ACCESS_KEY_ID='1234'
             export AWS_SECRET_ACCESS_KEY='5678'
-            python setup.py test
+            pipenv run python setup.py test
 
       - store_artifacts:
           path: test-reports
