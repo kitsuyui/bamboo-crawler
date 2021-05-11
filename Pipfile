@@ -4,13 +4,14 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-
 pyformat = '*'
 'moto[server]' = '*'
 flake8 = '*'
 mypy = '*'
 httpbin = '*'
-
+twine = "*"
+setuptools = "*"
+wheel = "*"
 
 [packages]
 boto3 = '*'
