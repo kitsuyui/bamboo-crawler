@@ -4,14 +4,13 @@ from setuptools import setup, find_packages
 
 setup(
     name='bamboo-crawler',
-    version='0.1.0',
-    description='Hobby Crawler (yet)',
-    long_description=open('README.md').read(),
+    version='0.1.2',
     long_description_content_type='text/markdown',
+    long_description=open('README.md').read(),
     author='Yui Kitsu',
     author_email='kitsuyui+github@kitsuyui.com',
     url='https://github.com/kitsuyui/bamboo-crawler',
-    packages=find_packages('bamboo_crawler.*'),
+    packages=find_packages(exclude=('tests.*', 'tests')),
     install_requires=[
         'boto3',
         'cssselect',
@@ -19,6 +18,7 @@ setup(
         'requests',
         'PyYAML',
         'SQLAlchemy',
+        'jinja2',
     ],
     extras_require={
         'dev': [
@@ -43,5 +43,4 @@ setup(
     entry_points={'console_scripts': [
         'bamboo = bamboo_crawler.cli:main',
     ]},
-    license=open('./LICENSE', 'r').read(),
 )
