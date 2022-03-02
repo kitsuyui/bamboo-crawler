@@ -1,6 +1,6 @@
+import io
 from collections import OrderedDict
 from contextlib import closing
-import io
 
 import jinja2
 from yaml.dumper import Dumper
@@ -11,6 +11,7 @@ from yaml.resolver import BaseResolver
 def parse_ordered_yaml(infile):
     def ordering(loader, node):
         return OrderedDict(loader.construct_pairs(node))
+
     loader = SafeLoader(infile)
     try:
         tag = BaseResolver.DEFAULT_MAPPING_TAG

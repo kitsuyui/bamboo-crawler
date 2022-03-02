@@ -2,14 +2,16 @@ import time
 
 
 class Task(object):
-
-    def __init__(self, *,
-                 name,
-                 inputter,
-                 processor,
-                 outputter,
-                 deserializer=None,
-                 serializer=None):
+    def __init__(
+        self,
+        *,
+        name,
+        inputter,
+        processor,
+        outputter,
+        deserializer=None,
+        serializer=None
+    ):
         self.name = name
         self.inputter = inputter
         self.processor = processor
@@ -25,7 +27,7 @@ class Task(object):
         for d in self.processor.process(body, context=context):
             job_name = self.name
             class_name = self.processor.__class__.__name__
-            metadatakey = 'processed_time_{}_{}'.format(job_name, class_name)
+            metadatakey = "processed_time_{}_{}".format(job_name, class_name)
             timestamp = int(time.time())
             context.add_metadata(**{metadatakey: timestamp})
             if self.serializer is not None:

@@ -1,5 +1,4 @@
-from abc import ABCMeta
-from abc import abstractmethod
+from abc import ABCMeta, abstractmethod
 from typing import Any
 
 
@@ -45,14 +44,12 @@ class Scraper(Processor):
 
 
 class Deserializer(metaclass=ABCMeta):
-
     @abstractmethod
     def deserialize(self, data: bytes):
         ...
 
 
 class Serializer(metaclass=ABCMeta):
-
     @abstractmethod
     def serialize(self, value: Any):
         ...

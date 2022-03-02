@@ -34,13 +34,16 @@ class FileInputter(interface.Inputter):
 
 
 class SQSS3Inputter(interface.Inputter):
-
-    def __init__(self, bucket_name, queue_name,
-                 *,
-                 s3_config=MappingProxyType({}),
-                 sqs_config=MappingProxyType({})):
-        s3 = boto3.resource('s3', **s3_config)
-        sqs = boto3.resource('sqs', **sqs_config)
+    def __init__(
+        self,
+        bucket_name,
+        queue_name,
+        *,
+        s3_config=MappingProxyType({}),
+        sqs_config=MappingProxyType({})
+    ):
+        s3 = boto3.resource("s3", **s3_config)
+        sqs = boto3.resource("sqs", **sqs_config)
         bucket = s3.Bucket(bucket_name)
         queue = sqs.get_queue_by_name(QueueName=queue_name)
         self.bucket = bucket
@@ -67,10 +70,10 @@ class SQSS3Inputter(interface.Inputter):
 
     def __read_s3(self, message):
         j = json.loads(message.body)
-        obj = self.bucket.Object(j['s3_body'])
-        metadata = j['metadata']
+        obj = self.bucket.Object(j["s3_body"])
+        metadata = j["metadata"]
         response = obj.get()
-        return response['Body'].read(), metadata
+        return response["Body"].read(), metadata
 
     def done(self):
         super().done()
@@ -79,7 +82,6 @@ class SQSS3Inputter(interface.Inputter):
 
 
 class SQLInputter(interface.Inputter):
-
     def __init__(self, url, *, table=None, query=None):
         if query is None and table is None:
             raise NotImplementedError
@@ -102,9 +104,9 @@ class SQLInputter(interface.Inputter):
 
 
 __all__ = [
-    'ConstantInputter',
-    'StdinInputter',
-    'FileInputter',
-    'SQSS3Inputter',
-    'SQLInputter',
+    "ConstantInputter",
+    "StdinInputter",
+    "FileInputter",
+    "SQSS3Inputter",
+    "SQLInputter",
 ]

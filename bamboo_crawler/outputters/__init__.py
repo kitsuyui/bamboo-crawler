@@ -23,14 +23,17 @@ class StdoutOutputter(interface.Outputter):
 
 
 class SQSS3Outputter(interface.Outputter):
-
-    def __init__(self, bucket_name, queue_name,
-                 *,
-                 s3_config=MappingProxyType({}),
-                 sqs_config=MappingProxyType({})):
+    def __init__(
+        self,
+        bucket_name,
+        queue_name,
+        *,
+        s3_config=MappingProxyType({}),
+        sqs_config=MappingProxyType({})
+    ):
         super().__init__()
-        s3 = boto3.resource('s3', **s3_config)
-        sqs = boto3.resource('sqs', **sqs_config)
+        s3 = boto3.resource("s3", **s3_config)
+        sqs = boto3.resource("sqs", **sqs_config)
         bucket = s3.Bucket(bucket_name)
         queue = sqs.get_queue_by_name(QueueName=queue_name)
         self.bucket = bucket
@@ -52,9 +55,9 @@ class SQSS3Outputter(interface.Outputter):
         obj.put(
             Body=value,
             ContentEncoding=encoding,
-            ContentType='text/plain',
+            ContentType="text/plain",
         )
-        j = json.dumps({'s3_body': obj.key, 'metadata': metadata})
+        j = json.dumps({"s3_body": obj.key, "metadata": metadata})
         queue.send_message(MessageBody=j)
 
 
@@ -65,9 +68,9 @@ class SQLOutputter(interface.Outputter):
         if query is not None and table is not None:
             raise NotImplementedError
         self.engine = sqlalchemy.create_engine(url)
-        self._type = 'query'
+        self._type = "query"
         if table is not None:
-            self._type = 'table'
+            self._type = "table"
             metadata = sqlalchemy.MetaData()
             metadata.reflect(self.engine, only=[table])
             Base = automap_base(metadata=metadata)
@@ -77,10 +80,10 @@ class SQLOutputter(interface.Outputter):
 
     def write(self, value, *, context=None):
         j = json.loads(value)
-        if self._type == 'table':
+        if self._type == "table":
             self.engine.execute(self.query.values(j))
         else:
             self.engine.execute(text(self.query), j)
 
 
-__all__ = ['StdoutOutputter', 'SQSS3Outputter', 'SQLOutputter']
+__all__ = ["StdoutOutputter", "SQSS3Outputter", "SQLOutputter"]

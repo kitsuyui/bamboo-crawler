@@ -12,7 +12,7 @@ class GzipDeserializer(interface.Deserializer):
 class JSONDeserializer(interface.Deserializer):
     def deserialize(self, value):
         if isinstance(value, bytes):
-            value = value.decode('utf-8')
+            value = value.decode("utf-8")
         return json.loads(value)
 
 
@@ -21,4 +21,4 @@ class NullDeserializer(interface.Deserializer):
         return value
 
 
-__all__ = ['GzipDeserializer', 'NullDeserializer', 'JSONDeserializer']
+__all__ = ["GzipDeserializer", "NullDeserializer", "JSONDeserializer"]

@@ -1,14 +1,11 @@
-from collections import defaultdict
-from datetime import date
-from datetime import datetime
-from datetime import time
 import re
-from urllib.parse import parse_qs
-from urllib.parse import urlparse
+from collections import defaultdict
+from datetime import date, datetime, time
+from types import MappingProxyType
+from urllib.parse import parse_qs, urlparse
 
 import lxml.html
 import requests
-from types import MappingProxyType
 
 from .. import interface
 
@@ -28,8 +25,7 @@ class XPathScraper(interface.Scraper):
 
     def scrape(self, data, *, context=None):
         elements = lxml.html.fromstring(data)
-        j = {key: elements.xpath(xpath)
-             for key, xpath in self.xpaths.items()}
+        j = {key: elements.xpath(xpath) for key, xpath in self.xpaths.items()}
         yield j
 
 
@@ -50,8 +46,10 @@ class CSSSelectorScraper(interface.Scraper):
 
     def scrape(self, data, *, context=None):
         elements = lxml.html.fromstring(data)
-        j = {key: self.__select(elements, p_selector)
-             for key, p_selector in self.selectors.items()}
+        j = {
+            key: self.__select(elements, p_selector)
+            for key, p_selector in self.selectors.items()
+        }
         yield j
 
     @classmethod
@@ -63,15 +61,12 @@ class CSSSelectorScraper(interface.Scraper):
 
 
 class MixedHTMLScraper(interface.Scraper):
-    def __init__(self, *,
-                 targets=MappingProxyType({})):
+    def __init__(self, *, targets=MappingProxyType({})):
         self.targets = targets
-        xpaths = {key: target['xpath']
-                  for key, target in targets.items()
-                  if 'xpath' in target}
-        css = {key: target['css']
-               for key, target in targets.items()
-               if 'css' in target}
+        xpaths = {
+            key: target["xpath"] for key, target in targets.items() if "xpath" in target
+        }
+        css = {key: target["css"] for key, target in targets.items() if "css" in target}
         self.xpath_scraper = XPathScraper(xpaths=xpaths)
         self.cssselector_scraper = CSSSelectorScraper(selectors=css)
 
@@ -100,46 +95,52 @@ class PythonProcessor(interface.Processor):
 
     @classmethod
     def __safe_eval(self, code, data, metadata):
-
         def extract_digit(data):
-            return ''.join(x for x in data if x.isdigit())
+            return "".join(x for x in data if x.isdigit())
 
         allowed_functions = {
-            'int': int,
-            'float': float,
-            'str': str,
-            'extract_digit': extract_digit,
-            'urlparse': urlparse,
-            'parse_qs': parse_qs,
-            'date': date,
-            'time': time,
-            'datetime': datetime,
-            'max': max,
-            'all': all,
-            'any': any,
-            'divmod': divmod,
-            'sorted': sorted,
-            'ord': ord,
-            'chr': chr,
-            'bin': bin,
-            'sum': sum,
-            'pow': pow,
-            'len': len,
-            'range': range,
-            'map': map,
-            're': re,
+            "int": int,
+            "float": float,
+            "str": str,
+            "extract_digit": extract_digit,
+            "urlparse": urlparse,
+            "parse_qs": parse_qs,
+            "date": date,
+            "time": time,
+            "datetime": datetime,
+            "max": max,
+            "all": all,
+            "any": any,
+            "divmod": divmod,
+            "sorted": sorted,
+            "ord": ord,
+            "chr": chr,
+            "bin": bin,
+            "sum": sum,
+            "pow": pow,
+            "len": len,
+            "range": range,
+            "map": map,
+            "re": re,
         }
-        globals_ = {'__builtins__': allowed_functions}
-        locals_ = {'_': data, 'meta': metadata}
+        globals_ = {"__builtins__": allowed_functions}
+        locals_ = {"_": data, "meta": metadata}
         try:
             return eval(code, globals_, locals_)
         except Exception:
             return None
 
     def process(self, data, *, context=None):
-        yield {key: self.__safe_eval(code, data, metadata=context.metadata)
-               for key, code in self.mappers.items()}
+        yield {
+            key: self.__safe_eval(code, data, metadata=context.metadata)
+            for key, code in self.mappers.items()
+        }
 
 
-__all__ = ['HTTPCrawler', 'XPathScraper', 'SingleXPathScraper',
-           'CSSSelectorScraper', 'NullProcessor']
+__all__ = [
+    "HTTPCrawler",
+    "XPathScraper",
+    "SingleXPathScraper",
+    "CSSSelectorScraper",
+    "NullProcessor",
+]

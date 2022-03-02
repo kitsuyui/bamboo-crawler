@@ -13,4 +13,4 @@ class JSONSerializer(interface.Serializer):
         return json.dumps(value)
 
 
-__all__ = ['NullSerializer', 'JSONSerializer']
+__all__ = ["NullSerializer", "JSONSerializer"]
