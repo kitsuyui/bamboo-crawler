@@ -19,7 +19,11 @@ cssselect = '*'
 lxml = '*'
 requests = '*'
 PyYAML = '*'
-SQLAlchemy = '*'
+SQLAlchemy = {extras = ["mypy"], version = "*"}
+types-pyyaml = "*"
+lxml-stubs = "*"
+types-requests = "*"
+boto3-stubs = "*"
 
 [requires]
 python_version = "3.9"
