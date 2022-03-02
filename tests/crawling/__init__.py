@@ -7,10 +7,10 @@ class TestCrawling(unittest.TestCase):
         server = subprocess.Popen([
             'python',
             '-m', 'http.server',
-            '8000'],
+            '8000',
+            '--directory', 'tests/crawling/assets'],
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            cwd='tests/crawling/assets')
+            stderr=subprocess.PIPE)
         self.server = server
 
     def tearDown(self):
