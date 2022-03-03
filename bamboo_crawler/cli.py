@@ -2,6 +2,7 @@ import argparse
 import logging
 import sys
 import time
+from typing import Any, Dict, List, TextIO
 
 import yaml
 
@@ -10,7 +11,7 @@ from .parser import parse_recipe
 from .task import Task
 
 
-def _set_logger(debug=False):
+def _set_logger(debug: bool = False) -> logging.Logger:
     logger = logging.getLogger(__name__)
     if debug:
         logger.setLevel(logging.DEBUG)
@@ -23,18 +24,20 @@ def _set_logger(debug=False):
     return logger
 
 
-def pickup_class(directive, search_classes):
+def pickup_class(directive: Dict[str, Any], search_classes: Any) -> Any:
     return getattr(search_classes, directive["type"])
 
 
-def subtask_from_directive(directive, search_classes):
+def subtask_from_directive(directive: Dict[str, Any], search_classes: Any) -> Any:
     options = directive.get("options", {})
     class_ = pickup_class(directive, search_classes)
     target = class_(**options)
     return target
 
 
-def task_from_definition(name, inputters, outputters, processors, definitions):
+def task_from_definition(
+    name: str, inputters: Any, outputters: Any, processors: Any, definitions: Any
+) -> Task:
     d = definitions
     reserved_keywords = frozenset(
         {"input", "output", "process", "deserialize", "serialize"}
@@ -67,7 +70,7 @@ def task_from_definition(name, inputters, outputters, processors, definitions):
     return task
 
 
-def job_(recipe, tasks, duration):
+def job_(recipe: Dict[str, Any], tasks: List[str], duration: float) -> None:
     logger = logging.getLogger(__name__)
     for key in tasks:
         definitions = recipe[key]
@@ -84,7 +87,14 @@ def job_(recipe, tasks, duration):
         time.sleep(duration)
 
 
-def job(envs, infile, tasks, show_only, duration, loop=False):
+def job(
+    envs: Dict[str, Any],
+    infile: TextIO,
+    tasks: List[str],
+    show_only: bool,
+    duration: float,
+    loop: bool = False,
+) -> None:
     recipe = parse_recipe(infile, envs)
     if not tasks:
         tasks = recipe.keys()
@@ -102,7 +112,7 @@ def job(envs, infile, tasks, show_only, duration, loop=False):
         job_(recipe, tasks, duration)
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--recipefile", "-r", type=argparse.FileType("r"), required=True
@@ -116,7 +126,7 @@ def main():
     d = parser.parse_args()
     _set_logger(d.debug)
     if d.envfile is not None:
-        envs = yaml.load(d.envfile)
+        envs = yaml.safe_load(d.envfile)
     else:
         envs = {}
     if not d.loop:

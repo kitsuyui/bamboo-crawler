@@ -1,7 +1,7 @@
 import hashlib
 import json
 import sys
-from types import MappingProxyType
+from typing import Any, Dict, Optional, Union
 
 import boto3
 import sqlalchemy
@@ -12,25 +12,23 @@ from .. import interface
 
 
 class StdoutOutputter(interface.Outputter):
-    def write(self, value, *, context=None):
+    def write(
+        self, value: Union[str, bytes], *, context: Optional[interface.Context] = None
+    ) -> None:
         if isinstance(value, bytes):
-            try:
-                enc = sys.getdefaultencoding()
-                value = value.decode(enc)
-            except Exception:
-                pass
+            value = value.decode()
         sys.stdout.write(value)
 
 
 class SQSS3Outputter(interface.Outputter):
     def __init__(
         self,
-        bucket_name,
-        queue_name,
+        bucket_name: str,
+        queue_name: str,
         *,
-        s3_config=MappingProxyType({}),
-        sqs_config=MappingProxyType({})
-    ):
+        s3_config: Dict[str, Any] = {},
+        sqs_config: Dict[str, Any] = {},
+    ) -> None:
         super().__init__()
         s3 = boto3.resource("s3", **s3_config)
         sqs = boto3.resource("sqs", **sqs_config)
@@ -39,7 +37,12 @@ class SQSS3Outputter(interface.Outputter):
         self.bucket = bucket
         self.queue = queue
 
-    def write(self, value, *, context=None):
+    def write(
+        self,
+        value: Union[str, bytes],
+        *,
+        context: Optional[interface.Context] = None,
+    ) -> None:
         bucket = self.bucket
         queue = self.queue
         encoding = sys.getdefaultencoding()
@@ -62,7 +65,10 @@ class SQSS3Outputter(interface.Outputter):
 
 
 class SQLOutputter(interface.Outputter):
-    def __init__(self, url, *, table=None, query=None):
+    def __init__(
+        self, url: str, *, table: Optional[str] = None, query: Optional[str] = None
+    ) -> None:
+        self.query: Union[sqlalchemy.sql.Insert, str]
         if query is None and table is None:
             raise NotImplementedError
         if query is not None and table is not None:
@@ -75,14 +81,23 @@ class SQLOutputter(interface.Outputter):
             metadata.reflect(self.engine, only=[table])
             Base = automap_base(metadata=metadata)
             Base.prepare()
-            query = metadata.tables[table].insert()
-        self.query = query
+            self.query = metadata.tables[table].insert()
+        else:
+            assert query is not None
+            self.query = query
 
-    def write(self, value, *, context=None):
+    def write(
+        self,
+        value: Union[str, bytes],
+        *,
+        context: Optional[interface.Context] = None,
+    ) -> None:
         j = json.loads(value)
         if self._type == "table":
+            assert isinstance(self.query, sqlalchemy.sql.Insert)
             self.engine.execute(self.query.values(j))
         else:
+            assert isinstance(self.query, str)
             self.engine.execute(text(self.query), j)
 
 

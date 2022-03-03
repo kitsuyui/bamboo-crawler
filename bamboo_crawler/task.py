@@ -1,25 +1,20 @@
 import time
+from dataclasses import dataclass
+from typing import Optional
+
+from .interface import Deserializer, Inputter, Outputter, Processor, Serializer
 
 
-class Task(object):
-    def __init__(
-        self,
-        *,
-        name,
-        inputter,
-        processor,
-        outputter,
-        deserializer=None,
-        serializer=None
-    ):
-        self.name = name
-        self.inputter = inputter
-        self.processor = processor
-        self.outputter = outputter
-        self.deserializer = deserializer
-        self.serializer = serializer
+@dataclass
+class Task:
+    name: str
+    inputter: Inputter
+    processor: Processor
+    outputter: Outputter
+    deserializer: Optional[Deserializer] = None
+    serializer: Optional[Serializer] = None
 
-    def do(self):
+    def do(self) -> None:
         context = self.inputter.read()
         body = context.body
         if self.deserializer is not None:

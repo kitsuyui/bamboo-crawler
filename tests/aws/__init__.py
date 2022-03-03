@@ -2,9 +2,6 @@ import json
 import subprocess
 import unittest
 
-import boto3
-import yaml
-
 
 class TestAWSModules(unittest.TestCase):
     def setUp(self):
@@ -18,16 +15,6 @@ class TestAWSModules(unittest.TestCase):
         sqs.stderr.readline()
         self.s3 = s3
         self.sqs = sqs
-        with open("tests/aws/env.yml") as f:
-            y = yaml.load(f.read())
-        cbc = {"LocationConstraint": y["s3_config"]["region_name"]}
-        boto_s3 = boto3.resource("s3", **y["s3_config"])
-        boto_sqs = boto3.resource("sqs", **y["sqs_config"])
-        boto_s3.create_bucket(
-            Bucket="sample-bucket",
-            CreateBucketConfiguration=cbc,
-        )
-        boto_sqs.create_queue(QueueName="sample-queue")
 
     def tearDown(self):
         s3 = self.s3
