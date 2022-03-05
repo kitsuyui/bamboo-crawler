@@ -14,6 +14,7 @@ setuptools = "*"
 wheel = "*"
 black = "*"
 isort = "*"
+coverage = "*"
 
 [packages]
 boto3 = '*'
