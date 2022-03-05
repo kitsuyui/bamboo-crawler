@@ -37,4 +37,4 @@ mytask:
 
 # License
 
-BSD 2-clause "Simplified" License
+BSD-3-Clause License
