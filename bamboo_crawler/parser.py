@@ -1,21 +1,15 @@
-from collections import OrderedDict
 from typing import Any, Dict, TextIO
 
 import jinja2
-from yaml.loader import Loader, SafeLoader
-from yaml.resolver import BaseResolver
+from yaml.loader import Loader
+
 
 Recipe = Any
 
 
 def parse_ordered_yaml(infile: str) -> Recipe:
-    def ordering(loader: Loader, node: Any) -> OrderedDict:
-        return OrderedDict(loader.construct_pairs(node))  # type: ignore
-
-    loader = SafeLoader(infile)
+    loader = Loader(infile)
     try:
-        tag = BaseResolver.DEFAULT_MAPPING_TAG
-        loader.add_constructor(tag, ordering)  # type: ignore
         return loader.get_single_data()
     finally:
         loader.dispose()  # type: ignore
