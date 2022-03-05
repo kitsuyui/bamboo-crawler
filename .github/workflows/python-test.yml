@@ -38,3 +38,4 @@ jobs:
         run: |
           pipenv run python setup.py build
           pipenv run python setup.py install --dry-run
+          pipenv run twine check dist/*
