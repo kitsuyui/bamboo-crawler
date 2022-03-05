@@ -8,9 +8,9 @@ mixed_scrape:
     options:
       targets:
         x:
-          xpath: '//address/text()'
+          xpath: "//address/text()"
         y:
-          css: 'span.xyz'
+          css: "span.xyz"
   serialize:
     type: JSONSerializer
   output:
