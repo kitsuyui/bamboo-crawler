@@ -1,67 +1,68 @@
-from abc import ABCMeta
-from abc import abstractmethod
-from typing import Any
+from __future__ import annotations
+
+from typing import Any, Iterable, Optional, Protocol, Union
 
 
-class Inputter(metaclass=ABCMeta):
-    @abstractmethod
-    def read(self):
+class Inputter(Protocol):
+    def read(self) -> Context:
         ...
 
-    def done(self):
-        pass
-
-
-class Outputter(metaclass=ABCMeta):
-    @abstractmethod
-    def write(self, value, *, context=None):
+    def done(self) -> None:
         ...
 
 
-class Processor(metaclass=ABCMeta):
-    @abstractmethod
-    def process(self, value, *, context=None):
-        yield ...
+class Outputter(Protocol):
+    def write(
+        self, value: Union[str, bytes], *, context: Optional[Context] = None
+    ) -> None:
+        ...
+
+
+class Processor(Protocol):
+    def process(
+        self, value: Union[str, bytes], *, context: Optional[Context] = None
+    ) -> Iterable[Any]:
+        ...
 
 
 class Crawler(Processor):
-    def process(self, value, *, context=None):
-        for content in self.crawl(value, context=context):
-            yield content
+    def process(
+        self, value: Union[str, bytes], *, context: Optional[Context] = None
+    ) -> Iterable[Any]:
+        yield from self.crawl(value, context=context)
 
-    @abstractmethod
-    def crawl(self, location, *, context=None):
-        yield ...
-
-
-class Scraper(Processor):
-    def process(self, value, *, context=None):
-        for content in self.scrape(value, context=None):
-            yield content
-
-    @abstractmethod
-    def scrape(self, data, *, context=None):
-        yield ...
-
-
-class Deserializer(metaclass=ABCMeta):
-
-    @abstractmethod
-    def deserialize(self, data: bytes):
+    def crawl(
+        self, location: Union[str, bytes], *, context: Optional[Context] = None
+    ) -> Iterable[Any]:
         ...
 
 
-class Serializer(metaclass=ABCMeta):
+class Scraper(Processor):
+    def process(
+        self, value: Union[str, bytes], *, context: Optional[Context] = None
+    ) -> Iterable[Any]:
+        yield from self.scrape(value, context=context)
 
-    @abstractmethod
-    def serialize(self, value: Any):
+    def scrape(
+        self, data: Union[str, bytes], *, context: Optional[Context] = None
+    ) -> Iterable[Any]:
+        ...
+
+
+class Deserializer(Protocol):
+    def deserialize(self, data: Union[str, bytes]) -> Any:
+        ...
+
+
+class Serializer(Protocol):
+    def serialize(self, value: Any) -> Union[str, bytes]:
         ...
 
 
 class Context(object):
-    def __init__(self, body, **kwargs):
+    def __init__(self, body: Any, **kwargs: Any) -> None:
         self.body = body
         self.metadata = kwargs.copy()
 
-    def add_metadata(self, **kwargs):
+    def add_metadata(self, **kwargs: Any) -> None:
         self.metadata.update(kwargs)

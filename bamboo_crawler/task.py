@@ -1,23 +1,20 @@
 import time
+from dataclasses import dataclass
+from typing import Optional
+
+from .interface import Deserializer, Inputter, Outputter, Processor, Serializer
 
 
-class Task(object):
+@dataclass
+class Task:
+    name: str
+    inputter: Inputter
+    processor: Processor
+    outputter: Outputter
+    deserializer: Optional[Deserializer] = None
+    serializer: Optional[Serializer] = None
 
-    def __init__(self, *,
-                 name,
-                 inputter,
-                 processor,
-                 outputter,
-                 deserializer=None,
-                 serializer=None):
-        self.name = name
-        self.inputter = inputter
-        self.processor = processor
-        self.outputter = outputter
-        self.deserializer = deserializer
-        self.serializer = serializer
-
-    def do(self):
+    def do(self) -> None:
         context = self.inputter.read()
         body = context.body
         if self.deserializer is not None:
@@ -25,7 +22,7 @@ class Task(object):
         for d in self.processor.process(body, context=context):
             job_name = self.name
             class_name = self.processor.__class__.__name__
-            metadatakey = 'processed_time_{}_{}'.format(job_name, class_name)
+            metadatakey = "processed_time_{}_{}".format(job_name, class_name)
             timestamp = int(time.time())
             context.add_metadata(**{metadatakey: timestamp})
             if self.serializer is not None:

@@ -4,13 +4,18 @@ import unittest
 
 class TestCrawling(unittest.TestCase):
     def setUp(self):
-        server = subprocess.Popen([
-            'python',
-            '-m', 'http.server',
-            '8000'],
+        server = subprocess.Popen(
+            [
+                "python",
+                "-m",
+                "http.server",
+                "8000",
+                "--directory",
+                "tests/crawling/assets",
+            ],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            cwd='tests/crawling/assets')
+        )
         self.server = server
 
     def tearDown(self):
@@ -21,15 +26,21 @@ class TestCrawling(unittest.TestCase):
         server.wait()
 
     def run_recipe(self, taskname):
-        c = subprocess.run([
-            'python', '-m',
-            'bamboo_crawler',
-            '-r', 'tests/crawling/recipe.yml',
-            '-t', taskname],
-            stdout=subprocess.PIPE)
+        c = subprocess.run(
+            [
+                "python",
+                "-m",
+                "bamboo_crawler",
+                "-r",
+                "tests/crawling/recipe.yml",
+                "-t",
+                taskname,
+            ],
+            stdout=subprocess.PIPE,
+        )
         self.assertEqual(c.returncode, 0)
         return c
 
     def test_something(self):
-        c = self.run_recipe('index_html')
-        self.assertEqual(c.stdout, b'<body>test!test!test!</body>\n')
+        c = self.run_recipe("index_html")
+        self.assertEqual(c.stdout, b"<body>test!test!test!</body>\n")

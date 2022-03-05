@@ -8,7 +8,6 @@ fetch_task:
   output:
     type: StdoutOutputter
 
-
 user_agent:
   input:
     type: ConstantInputter
@@ -22,7 +21,6 @@ user_agent:
   output:
     type: StdoutOutputter
 
-
 constant_inputter_test:
   input:
     type: ConstantInputter
@@ -32,7 +30,6 @@ constant_inputter_test:
     type: NullProcessor
   output:
     type: StdoutOutputter
-
 
 constant_inputter_with_metadata:
   input:

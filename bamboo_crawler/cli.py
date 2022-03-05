@@ -2,19 +2,16 @@ import argparse
 import logging
 import sys
 import time
+from typing import Any, Dict, List, TextIO
 
 import yaml
 
-from . import deserializers
-from . import inputters
-from . import outputters
+from . import deserializers, inputters, outputters, processors, serializers
 from .parser import parse_recipe
-from . import processors
-from . import serializers
 from .task import Task
 
 
-def _set_logger(debug=False):
+def _set_logger(debug: bool = False) -> logging.Logger:
     logger = logging.getLogger(__name__)
     if debug:
         logger.setLevel(logging.DEBUG)
@@ -27,61 +24,77 @@ def _set_logger(debug=False):
     return logger
 
 
-def pickup_class(directive, search_classes):
-    return getattr(search_classes, directive['type'])
+def pickup_class(directive: Dict[str, Any], search_classes: Any) -> Any:
+    return getattr(search_classes, directive["type"])
 
 
-def subtask_from_directive(directive, search_classes):
-    options = directive.get('options', {})
+def subtask_from_directive(directive: Dict[str, Any], search_classes: Any) -> Any:
+    options = directive.get("options", {})
     class_ = pickup_class(directive, search_classes)
     target = class_(**options)
     return target
 
 
-def task_from_definition(name, inputters, outputters, processors, definitions):
+def task_from_definition(
+    name: str, inputters: Any, outputters: Any, processors: Any, definitions: Any
+) -> Task:
     d = definitions
-    reserved_keywords = frozenset({'input', 'output',
-                                   'process',
-                                   'deserialize', 'serialize'})
+    reserved_keywords = frozenset(
+        {"input", "output", "process", "deserialize", "serialize"}
+    )
     if frozenset(d.keys()) > reserved_keywords:
         raise NotImplementedError
 
-    inputter = subtask_from_directive(d['input'], inputters)
-    outputter = subtask_from_directive(d['output'], outputters)
-    processor = subtask_from_directive(d['process'], processors)
+    inputter = subtask_from_directive(d["input"], inputters)
+    outputter = subtask_from_directive(d["output"], outputters)
+    processor = subtask_from_directive(d["process"], processors)
 
-    if 'deserialize' in d:
-        deserializer = subtask_from_directive(d['deserialize'], deserializers)
+    if "deserialize" in d:
+        deserializer = subtask_from_directive(d["deserialize"], deserializers)
     else:
         deserializer = None
 
-    if 'serialize' in d:
-        serializer = subtask_from_directive(d['serialize'], serializers)
+    if "serialize" in d:
+        serializer = subtask_from_directive(d["serialize"], serializers)
     else:
         serializer = None
 
-    task = Task(name=name,
-                inputter=inputter,
-                processor=processor,
-                outputter=outputter,
-                deserializer=deserializer,
-                serializer=serializer)
+    task = Task(
+        name=name,
+        inputter=inputter,
+        processor=processor,
+        outputter=outputter,
+        deserializer=deserializer,
+        serializer=serializer,
+    )
     return task
 
 
-def job_(recipe, tasks, duration):
+def job_(recipe: Dict[str, Any], tasks: List[str], duration: float) -> None:
     logger = logging.getLogger(__name__)
     for key in tasks:
         definitions = recipe[key]
-        task = task_from_definition(key, inputters, outputters,
-                                    processors, definitions)
-        logger.debug('begin: ' + key)
+        task = task_from_definition(
+            key,
+            inputters,
+            outputters,
+            processors,
+            definitions,
+        )
+        logger.debug("begin: " + key)
         task.do()
-        logger.debug('end: ' + key)
+        logger.debug("end: " + key)
         time.sleep(duration)
 
 
-def job(envs, infile, tasks, show_only, duration, loop=False):
+def job(
+    envs: Dict[str, Any],
+    infile: TextIO,
+    tasks: List[str],
+    show_only: bool,
+    duration: float,
+    loop: bool = False,
+) -> None:
     recipe = parse_recipe(infile, envs)
     if not tasks:
         tasks = recipe.keys()
@@ -99,21 +112,21 @@ def job(envs, infile, tasks, show_only, duration, loop=False):
         job_(recipe, tasks, duration)
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument('--recipefile', '-r',
-                        type=argparse.FileType('r'),
-                        required=True)
-    parser.add_argument('--envfile', '-e', type=argparse.FileType('r'))
-    parser.add_argument('--task', '-t', type=str, nargs='+', default=[])
-    parser.add_argument('--loop', '-l', type=bool, default=False)
-    parser.add_argument('--debug', type=bool, default=False)
-    parser.add_argument('--show', type=bool, default=False)
-    parser.add_argument('--duration', type=float, default=0.0)
+    parser.add_argument(
+        "--recipefile", "-r", type=argparse.FileType("r"), required=True
+    )
+    parser.add_argument("--envfile", "-e", type=argparse.FileType("r"))
+    parser.add_argument("--task", "-t", type=str, nargs="+", default=[])
+    parser.add_argument("--loop", "-l", type=bool, default=False)
+    parser.add_argument("--debug", type=bool, default=False)
+    parser.add_argument("--show", type=bool, default=False)
+    parser.add_argument("--duration", type=float, default=0.0)
     d = parser.parse_args()
     _set_logger(d.debug)
     if d.envfile is not None:
-        envs = yaml.load(d.envfile)
+        envs = yaml.safe_load(d.envfile)
     else:
         envs = {}
     if not d.loop:
@@ -122,5 +135,5 @@ def main():
         job(envs, d.recipefile, d.task, d.show, d.duration, loop=True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -12,6 +12,9 @@ httpbin = '*'
 twine = "*"
 setuptools = "*"
 wheel = "*"
+black = "*"
+isort = "*"
+coverage = "*"
 
 [packages]
 boto3 = '*'
@@ -19,7 +22,12 @@ cssselect = '*'
 lxml = '*'
 requests = '*'
 PyYAML = '*'
-SQLAlchemy = '*'
+SQLAlchemy = {extras = ["mypy"], version = "*"}
+types-pyyaml = "*"
+lxml-stubs = "*"
+types-requests = "*"
+boto3-stubs = "*"
 
-[requires]
-python_version = "3.9"
+[scripts]
+test = "python3 -m unittest discover"
+lint = "sh -c 'flake8 bamboo_crawler tests && mypy bamboo_crawler'"
