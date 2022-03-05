@@ -30,6 +30,3 @@ boto3-stubs = "*"
 [scripts]
 test = "python3 -m unittest discover"
 lint = "sh -c 'flake8 bamboo_crawler tests && mypy bamboo_crawler'"
-
-[requires]
-python_version = "3.9"
