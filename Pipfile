@@ -15,6 +15,8 @@ wheel = "*"
 black = "*"
 isort = "*"
 coverage = "*"
+pytest = "*"
+pytest-cov = "*"
 
 [packages]
 boto3 = '*'
@@ -29,5 +31,6 @@ types-requests = "*"
 boto3-stubs = "*"
 
 [scripts]
-test = "python3 -m unittest discover"
+test = "pytest"
+test-with-coverage = "pytest --cov"
 lint = "sh -c 'flake8 bamboo_crawler tests && mypy bamboo_crawler'"
