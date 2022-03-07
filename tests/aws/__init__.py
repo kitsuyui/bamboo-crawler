@@ -9,6 +9,8 @@ import yaml
 
 class TestAWSModules(unittest.TestCase):
     def setUp(self):
+        os.environ["FLASK_ENV"] = "development"
+        os.environ['WERKZEUG_RUN_MAIN'] = "true"
         s3 = subprocess.Popen(
             ["moto_server", "s3", "-p", "5000"], stderr=subprocess.PIPE
         )
