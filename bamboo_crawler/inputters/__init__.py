@@ -4,22 +4,14 @@ import pathlib
 import sys
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any, Dict, Optional, Tuple
 
 import boto3
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 
 from .. import interface
-
-
-@dataclass
-class ConstantInputter(interface.Inputter):
-    value: Union[str, bytes]
-    metadata: Dict[str, Any] = field(default_factory=dict)
-
-    def read(self) -> interface.Context:
-        return interface.Context(self.value, **self.metadata)
+from ..constants import ConstantInputter
 
 
 class StdinInputter(interface.Inputter):
