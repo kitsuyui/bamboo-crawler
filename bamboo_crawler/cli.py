@@ -6,9 +6,8 @@ from typing import Any, Dict, List, TextIO
 
 import yaml
 
-from . import deserializers, inputters, outputters, processors, serializers
+from .directives.default import DefaultSearcher
 from .parser import parse_recipe
-from .task import Task
 
 
 def _set_logger(debug: bool = False) -> logging.Logger:
@@ -24,61 +23,12 @@ def _set_logger(debug: bool = False) -> logging.Logger:
     return logger
 
 
-def pickup_class(directive: Dict[str, Any], search_classes: Any) -> Any:
-    return getattr(search_classes, directive["type"])
-
-
-def subtask_from_directive(directive: Dict[str, Any], search_classes: Any) -> Any:
-    options = directive.get("options", {})
-    class_ = pickup_class(directive, search_classes)
-    target = class_(**options)
-    return target
-
-
-def task_from_definition(
-    name: str, inputters: Any, outputters: Any, processors: Any, definitions: Any
-) -> Task:
-    d = definitions
-    reserved_keywords = frozenset(
-        {"input", "output", "process", "deserialize", "serialize"}
-    )
-    if frozenset(d.keys()) > reserved_keywords:
-        raise NotImplementedError
-
-    inputter = subtask_from_directive(d["input"], inputters)
-    outputter = subtask_from_directive(d["output"], outputters)
-    processor = subtask_from_directive(d["process"], processors)
-
-    if "deserialize" in d:
-        deserializer = subtask_from_directive(d["deserialize"], deserializers)
-    else:
-        deserializer = None
-
-    if "serialize" in d:
-        serializer = subtask_from_directive(d["serialize"], serializers)
-    else:
-        serializer = None
-
-    task = Task(
-        name=name,
-        inputter=inputter,
-        processor=processor,
-        outputter=outputter,
-        deserializer=deserializer,
-        serializer=serializer,
-    )
-    return task
-
-
 def job_(recipe: Dict[str, Any], tasks: List[str], duration: float) -> None:
     logger = logging.getLogger(__name__)
     for key in tasks:
         definitions = recipe[key]
-        task = task_from_definition(
+        task = DefaultSearcher.define_task(
             key,
-            inputters,
-            outputters,
-            processors,
             definitions,
         )
         logger.debug("begin: " + key)

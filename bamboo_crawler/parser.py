@@ -3,7 +3,6 @@ from typing import Any, Dict, TextIO
 import jinja2
 from yaml.loader import Loader
 
-
 Recipe = Any
 
 
