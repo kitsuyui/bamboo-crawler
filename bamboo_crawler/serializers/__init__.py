@@ -1,17 +1,5 @@
-import json
-from typing import Union
+from ..constants import NullSerializer
+from ..gzip import GzipSerializer
+from ..json import JSONSerializer
 
-from .. import interface
-
-
-class NullSerializer(interface.Serializer):
-    def serialize(self, value: Union[str, bytes]) -> Union[str, bytes]:
-        return value
-
-
-class JSONSerializer(interface.Serializer):
-    def serialize(self, value: Union[str, bytes]) -> Union[str, bytes]:
-        return json.dumps(value)
-
-
-__all__ = ["NullSerializer", "JSONSerializer"]
+__all__ = ["GzipSerializer", "NullSerializer", "JSONSerializer"]
