@@ -2,7 +2,11 @@ import time
 from dataclasses import dataclass
 from typing import Optional
 
-from .interface import Deserializer, Inputter, Outputter, Processor, Serializer
+from .interfaces.deserializer import Deserializer
+from .interfaces.inputter import Inputter
+from .interfaces.outputter import Outputter
+from .interfaces.processor import Processor
+from .interfaces.serializer import Serializer
 
 
 @dataclass
