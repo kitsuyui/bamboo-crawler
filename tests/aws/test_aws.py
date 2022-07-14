@@ -1,6 +1,8 @@
 import json
 import os
 import subprocess
+from threading import Thread
+import time
 
 import boto3
 import pytest
@@ -25,43 +27,39 @@ def moto_environment():
             os.environ[k] = v
 
 
+def read_and_discard_in_background(file):
+    Thread(target=lambda f: f.read(), args=(file,), daemon=True).start()
+
+
 @pytest.fixture
 def moto_server_s3(moto_environment):
-    s3 = subprocess.Popen(["moto_server", "s3", "-p", "5000"], stderr=subprocess.PIPE)
-    s3.stderr.readline()
-    with open("tests/aws/env.yml") as f:
-        y = yaml.safe_load(f.read())
-    boto_s3 = boto3.resource("s3", **y["s3_config"])
-    try:
+    with subprocess.Popen(["moto_server", "s3", "-p", "5000"], stderr=subprocess.PIPE) as s3:
+        read_and_discard_in_background(s3.stderr)
+        time.sleep(.5)
+        with open("tests/aws/env.yml") as f:
+            y = yaml.safe_load(f.read())
+        boto_s3 = boto3.resource("s3", **y["s3_config"])
         boto_s3.create_bucket(
             Bucket="sample-bucket",
             CreateBucketConfiguration={
                 "LocationConstraint": y["s3_config"]["region_name"]
             },
         )
-    except Exception:
-        pass
-    yield
-    s3.kill()
-    s3.stderr.close()
-    s3.wait()
+        yield
+        s3.terminate()
 
 
 @pytest.fixture
 def moto_server_sqs(moto_environment):
-    sqs = subprocess.Popen(["moto_server", "sqs", "-p", "5001"], stderr=subprocess.PIPE)
-    sqs.stderr.readline()
-    with open("tests/aws/env.yml") as f:
-        y = yaml.safe_load(f.read())
-    boto_sqs = boto3.resource("sqs", **y["sqs_config"])
-    try:
+    with subprocess.Popen(["moto_server", "sqs", "-p", "5001"], stderr=subprocess.PIPE) as sqs:
+        read_and_discard_in_background(sqs.stderr)
+        time.sleep(.5)
+        with open("tests/aws/env.yml") as f:
+            y = yaml.safe_load(f.read())
+        boto_sqs = boto3.resource("sqs", **y["sqs_config"])
         boto_sqs.create_queue(QueueName="sample-queue")
-    except Exception:
-        pass
-    yield
-    sqs.kill()
-    sqs.stderr.close()
-    sqs.wait()
+        yield
+        sqs.terminate()
 
 
 def run_recipe(taskname):
