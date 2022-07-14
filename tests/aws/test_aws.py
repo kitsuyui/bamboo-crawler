@@ -12,8 +12,6 @@ import yaml
 @pytest.fixture
 def moto_environment():
     overwrite_envs = {
-        "FLASK_ENV": "development",
-        "WERKZEUG_RUN_MAIN": "true",
         "AWS_ACCESS_KEY_ID": "1234",
         "AWS_SECRET_ACCESS_KEY": "5678",
     }
