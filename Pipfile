@@ -17,6 +17,7 @@ isort = "*"
 coverage = "*"
 pytest = "*"
 pytest-cov = "*"
+pyupgrade = "*"
 
 [packages]
 boto3 = '*'
