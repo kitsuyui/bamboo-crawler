@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 from .directives.default import DefaultSearcher
 from .directives.searcher import DirectiveSearcher
@@ -11,7 +11,7 @@ from .task import Task
 
 @dataclass(frozen=True)
 class Job:
-    tasks: List[Task]
+    tasks: list[Task]
 
     def run(self, *, loop: bool = False, cooldown: float = 0.0) -> None:
         if loop:
@@ -28,7 +28,7 @@ class Job:
     @classmethod
     def from_job_directive(  # type: ignore
         cls,
-        raw_directive: Dict[str, Any],
+        raw_directive: dict[str, Any],
         *,
         searcher: DirectiveSearcher = DefaultSearcher,
     ) -> Job:
@@ -41,7 +41,7 @@ class Job:
         ]
         return cls(tasks=tasks)
 
-    def filter_task_by_names(self, task_names: List[str]) -> Job:
+    def filter_task_by_names(self, task_names: list[str]) -> Job:
         task_by_name = {task.name: task for task in self.tasks}
         new_tasks = []
         for task_name in task_names:
