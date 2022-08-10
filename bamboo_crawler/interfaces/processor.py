@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Iterable, Optional, Protocol, TypeVar
+from typing import Any, Iterable, Protocol, TypeVar
 
 from .context import Context
 
@@ -10,6 +10,6 @@ S = TypeVar("S", covariant=True)
 
 class Processor(Protocol[T, S]):
     def process(
-        self, value: T, *, context: Optional[Context[Any]] = None
+        self, value: T, *, context: Context[Any] | None = None
     ) -> Iterable[S]:
         ...

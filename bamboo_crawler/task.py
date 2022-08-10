@@ -24,7 +24,7 @@ class Task:
         for result in self.processor.process(deserialized_body, context=context):
             job_name = self.name
             class_name = self.processor.__class__.__name__
-            metadatakey = "processed_time_{}_{}".format(job_name, class_name)
+            metadatakey = f"processed_time_{job_name}_{class_name}"
             timestamp = int(time.time())
             context.add_metadata(**{metadatakey: timestamp})
 

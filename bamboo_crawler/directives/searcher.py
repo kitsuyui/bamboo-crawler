@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict, Optional, Type
+from typing import Any
 
 from ..constants import NullDeserializer, NullSerializer
 from ..interfaces.deserializer import Deserializer
@@ -14,29 +14,29 @@ from ..task import Task
 
 @dataclass
 class DirectiveSearcher:
-    deserializers: Dict[str, Type[Deserializer]]
-    inputters: Dict[str, Type[Inputter]]
-    outputters: Dict[str, Type[Outputter]]
-    processors: Dict[str, Type[Processor]]
-    serializers: Dict[str, Type[Serializer]]
+    deserializers: dict[str, type[Deserializer]]
+    inputters: dict[str, type[Inputter]]
+    outputters: dict[str, type[Outputter]]
+    processors: dict[str, type[Processor]]
+    serializers: dict[str, type[Serializer]]
 
     @classmethod
     def create(cls) -> DirectiveSearcher:
         return cls({}, {}, {}, {}, {})
 
-    def add_inputter(self, inputter: Type[Inputter]) -> None:
+    def add_inputter(self, inputter: type[Inputter]) -> None:
         self.inputters[inputter.__name__] = inputter
 
-    def add_outputter(self, outputter: Type[Outputter]) -> None:
+    def add_outputter(self, outputter: type[Outputter]) -> None:
         self.outputters[outputter.__name__] = outputter
 
-    def add_deserializer(self, deserializer: Type[Deserializer]) -> None:
+    def add_deserializer(self, deserializer: type[Deserializer]) -> None:
         self.deserializers[deserializer.__name__] = deserializer
 
-    def add_processor(self, processor: Type[Processor]) -> None:
+    def add_processor(self, processor: type[Processor]) -> None:
         self.processors[processor.__name__] = processor
 
-    def add_serializer(self, serializer: Type[Serializer]) -> None:
+    def add_serializer(self, serializer: type[Serializer]) -> None:
         self.serializers[serializer.__name__] = serializer
 
     def get_inputter(self, directive: TypeDirective) -> Inputter:
@@ -48,12 +48,12 @@ class DirectiveSearcher:
     def get_processor(self, directive: TypeDirective) -> Processor:
         return self.processors[directive.type](**directive.options)
 
-    def get_serializer(self, directive: Optional[TypeDirective]) -> Serializer:
+    def get_serializer(self, directive: TypeDirective | None) -> Serializer:
         if directive is None:
             return NullSerializer()
         return self.serializers[directive.type](**directive.options)
 
-    def get_deserializer(self, directive: Optional[TypeDirective]) -> Deserializer:
+    def get_deserializer(self, directive: TypeDirective | None) -> Deserializer:
         if directive is None:
             return NullDeserializer()
         return self.deserializers[directive.type](**directive.options)
@@ -77,10 +77,10 @@ class InvalidDirectiveError(ValueError):
 @dataclass(frozen=True)
 class TypeDirective:
     type: str
-    options: Dict[str, Any]
+    options: dict[str, Any]
 
     @classmethod
-    def from_raw(cls, raw_directive: Dict[str, Any]) -> TypeDirective:  # type: ignore
+    def from_raw(cls, raw_directive: dict[str, Any]) -> TypeDirective:  # type: ignore
         reserved_keywords = ["type", "options"]
         for keyword in raw_directive.keys():
             if keyword not in reserved_keywords:
@@ -95,14 +95,14 @@ class TypeDirective:
 @dataclass(frozen=True)
 class TaskDirective:
     name: str
-    deserialize: Optional[TypeDirective]
+    deserialize: TypeDirective | None
     input: TypeDirective
     output: TypeDirective
     process: TypeDirective
-    serialize: Optional[TypeDirective]
+    serialize: TypeDirective | None
 
     @classmethod
-    def from_raw(cls, name: str, raw_directive: Dict[str, Any]) -> TaskDirective:  # type: ignore
+    def from_raw(cls, name: str, raw_directive: dict[str, Any]) -> TaskDirective:  # type: ignore
         reserved_keywords = ["input", "output", "process", "deserialize", "serialize"]
         for keyword in raw_directive.keys():
             if keyword not in reserved_keywords:
