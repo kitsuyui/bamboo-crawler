@@ -1,3 +1,4 @@
+import abc
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, Optional, Union
 
@@ -13,6 +14,7 @@ class Crawler(Processor[Union[str, bytes], Union[str, bytes]]):
     ) -> Iterable[Union[str, bytes]]:
         yield from self.crawl(value, context=context)
 
+    @abc.abstractmethod  # type: ignore
     def crawl(
         self, location: Union[str, bytes], *, context: Optional[Context] = None
     ) -> Iterable[Any]:
