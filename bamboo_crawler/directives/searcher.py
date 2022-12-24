@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, TypeVar
 
 from ..constants import NullDeserializer, NullSerializer
 from ..interfaces.deserializer import Deserializer
@@ -10,6 +10,9 @@ from ..interfaces.outputter import Outputter
 from ..interfaces.processor import Processor
 from ..interfaces.serializer import Serializer
 from ..task import Task
+
+
+InputterType = TypeVar('InputterType', bound=type[Inputter])
 
 
 @dataclass
@@ -24,7 +27,7 @@ class DirectiveSearcher:
     def create(cls) -> DirectiveSearcher:
         return cls({}, {}, {}, {}, {})
 
-    def add_inputter(self, inputter: type[Inputter]) -> None:
+    def add_inputter(self, inputter: InputterType) -> None:
         self.inputters[inputter.__name__] = inputter
 
     def add_outputter(self, outputter: type[Outputter]) -> None:

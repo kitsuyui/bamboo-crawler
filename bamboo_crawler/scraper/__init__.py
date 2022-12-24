@@ -1,3 +1,4 @@
+import abc
 import functools
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -15,6 +16,7 @@ class Scraper(Processor[Union[str, bytes], Any]):
     ) -> Iterable[Any]:
         yield from self.scrape(value, context=context)
 
+    @abc.abstractmethod  # type: ignore
     def scrape(
         self, data: Union[str, bytes], *, context: Optional[Context] = None
     ) -> Iterable[Any]:
