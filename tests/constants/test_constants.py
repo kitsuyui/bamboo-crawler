@@ -1,7 +1,7 @@
 import subprocess
 
 
-def test_constant_inputter_command():
+def test_constant_inputter_command() -> None:
     c = subprocess.run(
         [
             "python",

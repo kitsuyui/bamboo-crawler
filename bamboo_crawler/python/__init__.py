@@ -12,7 +12,9 @@ from ..interfaces.processor import Processor
 class PythonProcessor(Processor):
     mappers: Dict[str, str]
 
-    def __safe_eval(self, code: str, data: Any, metadata: Dict[str, Any]) -> Any:
+    def __safe_eval(
+        self, code: str, data: Any, metadata: Dict[str, Any]
+    ) -> Any:
         def extract_digit(data: str) -> str:
             return "".join(x for x in data if x.isdigit())
 

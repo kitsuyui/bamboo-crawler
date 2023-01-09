@@ -2,12 +2,15 @@ import json
 import os
 import sqlite3
 import subprocess
+from typing import Any
 
 import pytest
 
+Database = Any
+
 
 @pytest.fixture
-def database():
+def database() -> None:  # type: ignore
     db_filepath = "/tmp/test1"
     with open(db_filepath, "w"):
         pass
@@ -23,7 +26,7 @@ def database():
     os.unlink(db_filepath)
 
 
-def run_recipe(taskname):
+def run_recipe(taskname: str):  # type: ignore
     c = subprocess.run(
         [
             "python",
@@ -39,7 +42,7 @@ def run_recipe(taskname):
     return c
 
 
-def test_test1(database):
+def test_test1(database: Database) -> None:
     c = run_recipe("test1")
     j = json.loads(c.stdout)
     assert j["col1"] == "test"
@@ -47,21 +50,21 @@ def test_test1(database):
     assert c.returncode == 0
 
 
-def test_test2(database):
+def test_test2(database: Database) -> None:
     (c1,) = database.execute("SELECT COUNT(*) FROM test_table1").fetchone()
     run_recipe("test2")
     (c2,) = database.execute("SELECT COUNT(*) FROM test_table1").fetchone()
     assert c1 + 1 == c2
 
 
-def test_test3(database):
+def test_test3(database: Database) -> None:
     c = run_recipe("test3")
     j = json.loads(c.stdout)
     assert j["col1"] == "test"
     assert j["col2"] == 1
 
 
-def test_test4(database):
+def test_test4(database: Database) -> None:
     (c1,) = database.execute("SELECT COUNT(*) FROM test_table1").fetchone()
     run_recipe("test4")
     (c2,) = database.execute("SELECT COUNT(*) FROM test_table1").fetchone()

@@ -21,7 +21,9 @@ class Task:
         context = self.inputter.read()
         deserialized_body = self.deserializer.deserialize(context.body)
 
-        for result in self.processor.process(deserialized_body, context=context):
+        for result in self.processor.process(
+            deserialized_body, context=context
+        ):
             job_name = self.name
             class_name = self.processor.__class__.__name__
             metadatakey = f"processed_time_{job_name}_{class_name}"

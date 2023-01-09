@@ -11,8 +11,7 @@ from ..interfaces.processor import Processor
 from ..interfaces.serializer import Serializer
 from ..task import Task
 
-
-InputterType = TypeVar('InputterType', bound=type[Inputter])
+InputterType = TypeVar("InputterType", bound=type[Inputter])
 
 
 @dataclass
@@ -56,7 +55,9 @@ class DirectiveSearcher:
             return NullSerializer()
         return self.serializers[directive.type](**directive.options)
 
-    def get_deserializer(self, directive: TypeDirective | None) -> Deserializer:
+    def get_deserializer(
+        self, directive: TypeDirective | None
+    ) -> Deserializer:
         if directive is None:
             return NullDeserializer()
         return self.deserializers[directive.type](**directive.options)
@@ -106,7 +107,13 @@ class TaskDirective:
 
     @classmethod
     def from_raw(cls, name: str, raw_directive: dict[str, Any]) -> TaskDirective:  # type: ignore
-        reserved_keywords = ["input", "output", "process", "deserialize", "serialize"]
+        reserved_keywords = [
+            "input",
+            "output",
+            "process",
+            "deserialize",
+            "serialize",
+        ]
         for keyword in raw_directive.keys():
             if keyword not in reserved_keywords:
                 raise InvalidDirectiveError(f"Unexpected keyword: {keyword}")

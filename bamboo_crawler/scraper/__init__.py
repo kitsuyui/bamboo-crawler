@@ -62,7 +62,9 @@ class CSSSelectorScraper(Scraper):
         }
         yield j
 
-    def __select(self, elements: Any, p_selector: Union[str, bytes]) -> List[str]:
+    def __select(
+        self, elements: Any, p_selector: Union[str, bytes]
+    ) -> List[str]:
         if isinstance(p_selector, (str, bytes)):
             return [e.text_content() for e in elements.cssselect(p_selector)]
         selector, attribute = p_selector
