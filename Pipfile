@@ -6,7 +6,8 @@ verify_ssl = true
 [dev-packages]
 pyformat = '*'
 'moto[server]' = '*'
-flake8 = '*'
+# Hotfix: for support Python 3.7
+flake8 = "<6.0.0"
 mypy = '*'
 httpbin = '*'
 twine = "*"
@@ -20,6 +21,8 @@ pytest-cov = "*"
 pyupgrade = "*"
 build = "*"
 setuptools-scm = "*"
+importlib-metadata = {version = "*", python = "<3.8"}
+colorama = "*"
 
 [packages]
 boto3 = '*'
