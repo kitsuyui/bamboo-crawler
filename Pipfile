@@ -18,6 +18,8 @@ coverage = "*"
 pytest = "*"
 pytest-cov = "*"
 pyupgrade = "*"
+build = "*"
+setuptools-scm = "*"
 
 [packages]
 boto3 = '*'
@@ -32,6 +34,9 @@ types-requests = "*"
 boto3-stubs = "*"
 
 [scripts]
-test = "pytest"
-test-with-coverage = "pytest --cov"
-lint = "sh -c 'flake8 bamboo_crawler tests && mypy bamboo_crawler'"
+build = "make build"
+clean = "make clean"
+test = "make test"
+lint = "make lint"
+format = "make format"
+cover = "make coverage"
