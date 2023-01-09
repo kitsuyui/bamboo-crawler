@@ -30,5 +30,7 @@ class NullSerializer(Serializer[T, T]):
 
 
 class NullProcessor(Processor[T, T]):
-    def process(self, data: T, *, context: Optional[Context[T]] = None) -> Iterable[T]:
+    def process(
+        self, data: T, *, context: Optional[Context[T]] = None
+    ) -> Iterable[T]:
         yield data

@@ -6,7 +6,8 @@ verify_ssl = true
 [dev-packages]
 pyformat = '*'
 'moto[server]' = '*'
-flake8 = '*'
+# Hotfix: for support Python 3.7
+flake8 = "<6.0.0"
 mypy = '*'
 httpbin = '*'
 twine = "*"
@@ -18,6 +19,10 @@ coverage = "*"
 pytest = "*"
 pytest-cov = "*"
 pyupgrade = "*"
+build = "*"
+setuptools-scm = "*"
+importlib-metadata = {version = "*", python = "<3.8"}
+colorama = "*"
 
 [packages]
 boto3 = '*'
@@ -32,6 +37,9 @@ types-requests = "*"
 boto3-stubs = "*"
 
 [scripts]
-test = "pytest"
-test-with-coverage = "pytest --cov"
-lint = "sh -c 'flake8 bamboo_crawler tests && mypy bamboo_crawler'"
+build = "make build"
+clean = "make clean"
+test = "make test"
+lint = "make lint"
+format = "make format"
+cover = "make coverage"

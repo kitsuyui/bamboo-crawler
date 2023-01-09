@@ -5,12 +5,14 @@ import pytest
 
 
 @pytest.fixture
-def web_server_environment():
+def web_server_environment() -> None:  # type: ignore
     overwrite_envs = {
         "FLASK_ENV": "development",
         "WERKZEUG_RUN_MAIN": "true",
     }
-    recovery_values = {name: os.environ.get(name) for name in overwrite_envs.keys()}
+    recovery_values = {
+        name: os.environ.get(name) for name in overwrite_envs.keys()
+    }
     os.environ.update(overwrite_envs)
     yield
     for k, v in recovery_values.items():
@@ -21,7 +23,7 @@ def web_server_environment():
 
 
 @pytest.fixture
-def target_web_server(web_server_environment):
+def target_web_server(web_server_environment) -> None:  # type: ignore
     server = subprocess.Popen(
         [
             "python",
@@ -35,13 +37,13 @@ def target_web_server(web_server_environment):
         stderr=subprocess.PIPE,
     )
     yield
-    server.stderr.close()
-    server.stdout.close()
+    server.stderr.close()  # type: ignore
+    server.stdout.close()  # type: ignore
     server.kill()
     server.wait()
 
 
-def test_crawling(target_web_server):
+def test_crawling(target_web_server) -> None:  # type: ignore
     c = subprocess.run(
         [
             "python",

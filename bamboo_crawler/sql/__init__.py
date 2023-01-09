@@ -14,7 +14,11 @@ Row = Optional[Dict]
 
 class SQLInputter(Inputter[Row]):
     def __init__(
-        self, url: str, *, table: Optional[str] = None, query: Optional[str] = None
+        self,
+        url: str,
+        *,
+        table: Optional[str] = None,
+        query: Optional[str] = None,
     ) -> None:
         if query is None and table is None:
             raise NotImplementedError
@@ -46,7 +50,11 @@ class SQLInputter(Inputter[Row]):
 
 class SQLOutputter(Outputter[Any]):
     def __init__(
-        self, url: str, *, table: Optional[str] = None, query: Optional[str] = None
+        self,
+        url: str,
+        *,
+        table: Optional[str] = None,
+        query: Optional[str] = None,
     ) -> None:
         self.query: Union[sqlalchemy.sql.Insert, str]
         if query is None and table is None:

@@ -2,11 +2,9 @@ name: Upload PyPI package release
 
 on:
   push:
-    branches:
-      - main
   release:
-    types:
-      - created
+    # "released" events are emitted either when directly be released or be edited from pre-released.
+    types: [prereleased, released]
 
 jobs:
   deploy:
@@ -14,26 +12,31 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install pipenv
-        run: pipx install pipenv
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: "3.x"
           cache: "pipenv"
-          architecture: "x64"
 
-      - name: Install dependencies
-        run: pipenv sync --dev
+      - run: pipx install pipenv
+
+      - run: pipenv sync --dev
 
       - name: Build
         run: |
-          python3 setup.py sdist --formats=zip
+          pipenv run python3 -m build .
+          pipenv run python3 -m pip install dist/*.whl
 
-      - name: Publish a Python distribution to PyPI
-        if: startsWith(github.event.ref, 'refs/tags') || github.event_name == 'release'
-        uses: pypa/gh-action-pypi-publish@master
+      - name: Publish distribution to Test PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        if: github.event_name == 'release' && github.event.release.prerelease
+        with:
+          user: __token__
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/
+
+      - name: Publish distribution to PyPI
+        if: github.event_name == 'release' && !github.event.release.prerelease
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
