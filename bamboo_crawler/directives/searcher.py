@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, TypeVar
+from typing import Any, Type, TypeVar
 
 from ..constants import NullDeserializer, NullSerializer
 from ..interfaces.deserializer import Deserializer
@@ -11,16 +11,16 @@ from ..interfaces.processor import Processor
 from ..interfaces.serializer import Serializer
 from ..task import Task
 
-InputterType = TypeVar("InputterType", bound=type[Inputter])
+InputterType = TypeVar("InputterType", bound=Type[Inputter])
 
 
 @dataclass
 class DirectiveSearcher:
-    deserializers: dict[str, type[Deserializer]]
-    inputters: dict[str, type[Inputter]]
-    outputters: dict[str, type[Outputter]]
-    processors: dict[str, type[Processor]]
-    serializers: dict[str, type[Serializer]]
+    deserializers: dict[str, Type[Deserializer]]
+    inputters: dict[str, Type[Inputter]]
+    outputters: dict[str, Type[Outputter]]
+    processors: dict[str, Type[Processor]]
+    serializers: dict[str, Type[Serializer]]
 
     @classmethod
     def create(cls) -> DirectiveSearcher:
@@ -29,16 +29,16 @@ class DirectiveSearcher:
     def add_inputter(self, inputter: InputterType) -> None:
         self.inputters[inputter.__name__] = inputter
 
-    def add_outputter(self, outputter: type[Outputter]) -> None:
+    def add_outputter(self, outputter: Type[Outputter]) -> None:
         self.outputters[outputter.__name__] = outputter
 
-    def add_deserializer(self, deserializer: type[Deserializer]) -> None:
+    def add_deserializer(self, deserializer: Type[Deserializer]) -> None:
         self.deserializers[deserializer.__name__] = deserializer
 
-    def add_processor(self, processor: type[Processor]) -> None:
+    def add_processor(self, processor: Type[Processor]) -> None:
         self.processors[processor.__name__] = processor
 
-    def add_serializer(self, serializer: type[Serializer]) -> None:
+    def add_serializer(self, serializer: Type[Serializer]) -> None:
         self.serializers[serializer.__name__] = serializer
 
     def get_inputter(self, directive: TypeDirective) -> Inputter:
