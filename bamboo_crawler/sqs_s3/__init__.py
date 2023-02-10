@@ -1,4 +1,12 @@
-import functools
+from __future__ import annotations
+
+import sys
+
+if sys.version_info < (3, 8):
+    from cached_property import cached_property
+else:
+    from functools import cached_property
+
 import hashlib
 import json
 import sys
@@ -25,13 +33,13 @@ class SQSS3Inputter(Inputter[bytes]):
     sqs_config: Dict[str, Any] = field(default_factory=dict)
     message: Optional[SQSMessage] = None
 
-    @functools.cached_property
+    @cached_property
     def queue(self) -> SQSQueue:
         sqs = boto3.resource("sqs", **self.sqs_config)
         queue = sqs.get_queue_by_name(QueueName=self.queue_name)
         return queue
 
-    @functools.cached_property
+    @cached_property
     def bucket(self) -> S3Bucket:
         s3 = boto3.resource("s3", **self.s3_config)
         return s3.Bucket(self.bucket_name)
