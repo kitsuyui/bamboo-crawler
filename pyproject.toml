@@ -28,3 +28,63 @@ line-length = 79
 
 [tool.flake8]
 max-line-length = 79
+
+[tool.poetry]
+# I use poetry as just a package manager.
+# So, I only write the settings that poetry needs.
+# The actual package metadata is written in setup.cfg.
+# I use pypa/build for packaging.
+name = "bamboo-crawler"
+version = "0.0.0"
+description = ""
+authors = []
+packages = [
+    { include = "bamboo_crawler" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+boto3 = '*'
+cssselect = '*'
+lxml = '*'
+requests = '*'
+PyYAML = '*'
+SQLAlchemy = {extras = ["mypy"], version = "<2.0.0"}
+types-pyyaml = "*"
+lxml-stubs = "*"
+types-requests = "*"
+boto3-stubs = "*"
+
+[tool.poetry.group.dev.dependencies]
+moto = {extras = ["server"], version = '*'}
+flake8 = "*"
+mypy = '*'
+httpbin = '*'
+black = "*"
+isort = "*"
+coverage = "*"
+pytest = "*"
+pytest-cov = "*"
+pyupgrade = "*"
+build = "*"
+setuptools-scm = "*"
+importlib-metadata = {version = "*", python = "<3.8"}
+poethepoet = "*"
+
+[tool.poe.tasks]
+test = "pytest"
+coverage-xml = "pytest --cov=bamboo_crawler --doctest-modules --cov-report=xml"
+format = [
+    { cmd = "isort bamboo_crawler"},
+    { cmd = "black bamboo_crawler"},
+    { cmd = "pyupgrade --py38-plus bamboo_crawler/*.py"},
+]
+check = [
+    { cmd = "isort --check-only --diff bamboo_crawler"},
+    { cmd = "black --check --diff bamboo_crawler"},
+    { cmd = "flake8 bamboo_crawler"},
+    { cmd = "mypy bamboo_crawler"},
+]
+build = [
+    { cmd = "python -m build"}
+]
