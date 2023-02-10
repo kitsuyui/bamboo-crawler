@@ -54,6 +54,7 @@ types-pyyaml = "*"
 lxml-stubs = "*"
 types-requests = "*"
 boto3-stubs = "*"
+cached-property = {version = "*", python = "<3.8"}
 
 [tool.poetry.group.dev.dependencies]
 moto = {extras = ["server"], version = '*'}

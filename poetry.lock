@@ -620,6 +620,18 @@ typing = ["importlib-metadata (>=5.1)", "mypy (==0.991)", "tomli", "typing-exten
 virtualenv = ["virtualenv (>=20.0.35)"]
 
 [[package]]
+name = "cached-property"
+version = "1.5.2"
+description = "A decorator for caching properties in classes."
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "cached-property-1.5.2.tar.gz", hash = "sha256:9fa5755838eecbb2d234c3aa390bd80fbd3ac6b6869109bfc1b499f7bd89a130"},
+    {file = "cached_property-1.5.2-py2.py3-none-any.whl", hash = "sha256:df4f613cf7ad9a588cc381aaf4a512d26265ecebd5eb9e1ba12f1319eb85a6a0"},
+]
+
+[[package]]
 name = "certifi"
 version = "2022.12.7"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -2955,4 +2967,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "bb8e12b9b94e2a1b87de3db66948a679b37a24a49ad1b5ba32c2ee4a1cae29ab"
+content-hash = "ea28179b83dba103e5e432e5d82d45f0ea2ed9ee4266975b25e8101c96de4871"

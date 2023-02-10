@@ -1,5 +1,11 @@
 import abc
-import functools
+import sys
+
+if sys.version_info < (3, 8):
+    from cached_property import cached_property
+else:
+    from functools import cached_property
+
 from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, List, Optional, Union
@@ -75,7 +81,7 @@ class CSSSelectorScraper(Scraper):
 class MixedHTMLScraper(Scraper):
     targets: Dict[str, Dict[str, str]] = field(default_factory=dict)
 
-    @functools.cached_property
+    @cached_property
     def xpath_scraper(self) -> XPathScraper:
         xpaths = {
             key: target["xpath"]
@@ -84,7 +90,7 @@ class MixedHTMLScraper(Scraper):
         }
         return XPathScraper(xpaths=xpaths)
 
-    @functools.cached_property
+    @cached_property
     def cssselector_scraper(self) -> CSSSelectorScraper:
         css = {
             key: target["css"]
