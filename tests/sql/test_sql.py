@@ -2,6 +2,7 @@ import json
 import os
 import sqlite3
 import subprocess
+import threading
 from typing import Any
 
 import pytest
@@ -9,8 +10,10 @@ import pytest
 Database = Any
 
 
+lock = threading.Lock()
 @pytest.fixture
 def database() -> None:  # type: ignore
+    lock.acquire()
     db_filepath = "/tmp/test1"
     with open(db_filepath, "w"):
         pass
@@ -24,6 +27,7 @@ def database() -> None:  # type: ignore
     yield db
     db.close()
     os.unlink(db_filepath)
+    lock.release()
 
 
 def run_recipe(taskname: str):  # type: ignore

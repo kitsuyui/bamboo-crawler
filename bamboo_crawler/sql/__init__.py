@@ -21,10 +21,12 @@ class SQLInputter(Inputter[Row]):
         query: Optional[str] = None,
     ) -> None:
         if query is None and table is None:
-            raise NotImplementedError
+            raise NotImplementedError("query or table must be specified")
         if query is not None and table is not None:
-            raise NotImplementedError
+            raise NotImplementedError("query and table cannot be specified")
+
         self.engine = sqlalchemy.create_engine(url)
+        select_query: sqlalchemy.sql.Select
         if table is not None:
             metadata = sqlalchemy.MetaData()
             metadata.reflect(self.engine, only=[table])
@@ -32,12 +34,13 @@ class SQLInputter(Inputter[Row]):
             Base.prepare()
             select_query = metadata.tables[table].select()
         else:
-            select_query = None
+            assert query is not None
+            select_query = text(query)  # type: ignore
 
-        if select_query is not None:
-            self.result = self.engine.execute(select_query)
-        else:
-            self.result = self.engine.execute(query)
+        with self.engine.connect() as conn:
+            self.result = conn.execute(select_query)
+            conn.commit()  # type: ignore
+
         self.keys = list(self.result.keys())
 
     def read(self) -> Context[Row]:
@@ -81,9 +84,13 @@ class SQLOutputter(Outputter[Any]):
         context: Optional[Context] = None,
     ) -> None:
         j = json.loads(value)
+        insert_query: sqlalchemy.sql.Insert
         if self._type == "table":
             assert isinstance(self.query, sqlalchemy.sql.Insert)
-            self.engine.execute(self.query.values(j))
+            insert_query = self.query.values(j)
         else:
             assert isinstance(self.query, str)
-            self.engine.execute(text(self.query), j)
+            insert_query = text(self.query).bindparams(**j)  # type: ignore
+        with self.engine.connect() as conn:
+            conn.execute(insert_query)
+            conn.commit()  # type: ignore
