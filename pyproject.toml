@@ -49,7 +49,7 @@ cssselect = '*'
 lxml = '*'
 requests = '*'
 PyYAML = '*'
-SQLAlchemy = {extras = ["mypy"], version = "<2.0.0"}
+SQLAlchemy = {extras = ["mypy"], version = ">=2.0.0"}
 types-pyyaml = "*"
 lxml-stubs = "*"
 types-requests = "*"
