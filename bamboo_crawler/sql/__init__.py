@@ -3,6 +3,7 @@ from typing import Any, Dict, Optional, Union
 
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
+from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.sql import text
 
 from ..interfaces.context import Context
@@ -37,10 +38,9 @@ class SQLInputter(Inputter[Row]):
             assert query is not None
             select_query = text(query)  # type: ignore
 
-        with self.engine.connect() as conn:
-            self.result = conn.execute(select_query)
-            conn.commit()  # type: ignore
-
+        session = scoped_session(sessionmaker(bind=self.engine))
+        self.result = session.execute(select_query)
+        session.commit()
         self.keys = list(self.result.keys())
 
     def read(self) -> Context[Row]:
@@ -91,6 +91,8 @@ class SQLOutputter(Outputter[Any]):
         else:
             assert isinstance(self.query, str)
             insert_query = text(self.query).bindparams(**j)  # type: ignore
-        with self.engine.connect() as conn:
-            conn.execute(insert_query)
-            conn.commit()  # type: ignore
+
+        session_factory = sessionmaker(bind=self.engine)
+        session = scoped_session(session_factory)
+        session.execute(insert_query)
+        session.commit()
