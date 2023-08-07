@@ -1,5 +1,7 @@
 name: Lint and Test Python
-on: [push]
+on:
+  - push
+  - pull_request
 
 jobs:
   test:
