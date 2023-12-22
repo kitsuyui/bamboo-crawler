@@ -1,5 +1,9 @@
 # Bamboo Crawler
 
+# Deprecation Notice
+
+This project is deprecated. No longer maintained.  I don't use this project anymore. If you want to use this project, please fork it.
+
 [![Python](https://img.shields.io/pypi/pyversions/bamboo-crawler.svg)](https://badge.fury.io/py/tbamboo-crawler)
 [![PyPI version](https://img.shields.io/pypi/v/bamboo-crawler.svg)](https://pypi.python.org/pypi/bamboo-crawler/)
 [![codecov](https://codecov.io/gh/kitsuyui/bamboo-crawler/branch/main/graph/badge.svg?token=s7NTzwl5fl)](https://codecov.io/gh/kitsuyui/bamboo-crawler)
